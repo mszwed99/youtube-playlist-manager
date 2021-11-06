@@ -1,6 +1,4 @@
-import { ThemeSpacing } from './spacings';
-import { ThemeFonts } from './fonts';
-import { ThemeColors } from './colors';
+import { ThemeColors, ThemeFonts, ThemeSpacing } from "styled";
 
 export interface ThemeInterface {
   spacing: ThemeSpacing,

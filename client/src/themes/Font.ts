@@ -1,4 +1,4 @@
-import { ThemeFonts } from "./types/fonts";
+import { ThemeFonts } from "styled";
 
 export const Font: ThemeFonts = {
   fontSize: {

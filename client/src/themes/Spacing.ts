@@ -1,4 +1,4 @@
-import { ThemeSpacing } from "./types/spacings";
+import { ThemeSpacing } from "styled";
 
 export const Spacing: ThemeSpacing = {
   xxSmall: 4,
