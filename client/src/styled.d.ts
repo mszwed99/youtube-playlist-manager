@@ -38,10 +38,22 @@ export interface ThemeSpacing {
   xxxLarge: number;
 }
 
+export interface ThemeRadii {
+  xxSmall: number;
+  xSmall: number;
+  small: number;
+  medium: number;
+  large: number;
+  xLarge: number;
+  xxLarge: number;
+  xxxLarge: number;
+}
+
 declare module 'styled-components' {
   export interface DefaultTheme {
     spacing: ThemeSpacing,
     font: ThemeFonts,
-    colors: ThemeColors,    
+    colors: ThemeColors,
+    radii: ThemeRadii,
   }
 }

@@ -8,5 +8,5 @@ export const Colors: ThemeColors = {
   warning: '#f8961e',
   white: '#ffffff',
   black: '#000000',
-  grey: '999999',
+  grey: '#999999',
 };
