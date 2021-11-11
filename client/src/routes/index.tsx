@@ -1,13 +1,29 @@
 import React from 'react';
-import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
-import Home from 'screens/Home/Home';
+import { RootState } from 'ducks/modules/rootReducer';
+import { useSelector } from 'react-redux';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import AuthorizedRoutes from './AuthorizedRoutes';
+import UnauthorizedRoutes from './UnauthorizedRoutes';
 
-const Routes = () => (
-  <Router>
-    <Switch>
-      <Route exact path="/" component={Home} />
-    </Switch>
-  </Router>
-);
+const Routes = () => {
+  const { jwtToken } = useSelector((state: RootState) => state.auth);
+
+  return (
+    <Router>
+      {jwtToken ? <Route exact path="/" component={AuthorizedRoutes} /> : <Route exact path="/" component={UnauthorizedRoutes} />}
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover />
+    </Router>
+  );
+};
 
 export default Routes;
