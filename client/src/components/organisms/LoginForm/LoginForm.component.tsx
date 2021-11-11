@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Button, Input, Link } from 'components/atoms';
 import { useDispatch } from 'react-redux';
 import { login } from 'ducks/modules/Auth/authSlice';
+import { useHistory } from 'react-router';
 import { LoginFormContainer, RegisterText } from './LoginForm.styles';
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
