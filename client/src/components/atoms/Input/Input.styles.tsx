@@ -5,6 +5,7 @@ export const StyledInputContainer = styled.div<{ fullwidth: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  position: relative;
 
   ${({ fullwidth }) => fullwidth && css`
     width: 100%;
@@ -42,4 +43,13 @@ export const StyledInput = styled.input<{ rounded: boolean, fullwidth: boolean }
     border-color: ${({ theme }) => theme.colors.primary};
     color: ${({ theme }) => theme.colors.primary};
   }
+`;
+
+export const EyeIconContainer = styled.div`
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(-100%, -6px);
+  display: flex;
+  cursor: pointer;
 `;

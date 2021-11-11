@@ -15,8 +15,6 @@ export const RegisterForm = () => {
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.currentTarget.value);
   const handleRepeatedPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => setRepeatedPassword(e.currentTarget.value);
 
-  const isButtonAvailable: boolean = Boolean(username.length && password.length);
-
   const onPress = () => dispatch(register({ username, password }));
 
   const registerConditions: RegisterCondition[] = [
@@ -24,14 +22,18 @@ export const RegisterForm = () => {
     { condition: 'Hasło musi posiadać conajmniej jedną wielką literę [A-Z]', conditionPasssed: /[A-Z]/.test(password) },
     { condition: 'Hasło musi zawierać coanjmniej jedną liczbę [0-9]', conditionPasssed: /\d/.test(password) },
     { condition: 'Hasła muszą się zgadzać', conditionPasssed: password === repeatedPassword && Boolean(password.length) }
-  ]
+  ];
+
+  const isButtonAvailable: boolean = registerConditions.every((condition: RegisterCondition) => condition.conditionPasssed);
+
+  const shouldRenderRegisterConditions: boolean = Boolean(password.length && repeatedPassword.length);
 
   return (
     <RegisterFormContainer>
       <Input value={username} onChange={handleUsernameChange} label="Login" name="username" required rounded fullwidth />
       <Input value={password} onChange={handlePasswordChange} label="Hasło" name="password" required rounded fullwidth type="password" />
       <Input value={repeatedPassword} onChange={handleRepeatedPasswordChange} label="Powtórz hasło" name="repatedPassword" required rounded fullwidth type="password" />
-      {registerConditions.map((registerCondition: RegisterCondition, i: number) =>
+      {shouldRenderRegisterConditions && registerConditions.map((registerCondition: RegisterCondition, i: number) =>
         <FieldCheck key={i} passed={registerCondition.conditionPasssed}>{registerCondition.condition}</FieldCheck>)
       }
       <Spacer />
