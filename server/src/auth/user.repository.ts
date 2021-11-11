@@ -6,7 +6,7 @@ import * as bcrypt from 'bcrypt';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
-    async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
+    async signUp(authCredentialsDto: AuthCredentialsDto): Promise<any> {
         const { username, password } = authCredentialsDto;
 
         const user = new User();
@@ -17,6 +17,7 @@ export class UserRepository extends Repository<User> {
 
         try {
             await user.save();
+            return true;
         } catch (error) {
             if(error.code === '23505') { // duplicate username
                 throw new ConflictException('Username already exists');
