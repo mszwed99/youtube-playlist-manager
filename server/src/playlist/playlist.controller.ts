@@ -13,14 +13,16 @@ export class PlaylistController {
         private playlistService: PlaylistService
     ) {}
 
-    // @Get()
-    // getUserPlaylists(@GetUser() user: User): Promise<Playlist[]> {
-    //     return this.playlistService.getUserPlaylists(user);
-    // }
+    @Get()
+    getUserPlaylists(
+        @GetUser() user: User
+    ): Promise<Playlist[]> {
+        return this.playlistService.getUserPlaylists(user);
+    }
 
     @Get('public')
-    getPublicPlaylists(@GetUser() user: User): Promise<Playlist[]> {
-        return this.playlistService.getPublicPlaylists(user);
+    getPublicPlaylists(): Promise<Playlist[]> {
+        return this.playlistService.getPublicPlaylists();
     }
 
 

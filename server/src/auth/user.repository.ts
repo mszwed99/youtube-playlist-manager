@@ -1,4 +1,4 @@
-import { ConflictException, InternalServerErrorException } from "@nestjs/common";
+import { BadRequestException, ConflictException, InternalServerErrorException } from "@nestjs/common";
 import { EntityRepository, Repository } from "typeorm";
 import { AuthCredentialsDto } from "./dto/auth-credentials.dto";
 import { User } from "./user.entity";
@@ -12,7 +12,13 @@ export class UserRepository extends Repository<User> {
         const user = new User();
         user.username = username;
         user.salt = await bcrypt.genSalt()
+
+        const regExp = new RegExp(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/)
+        if(!regExp.test(password)) {
+            throw new BadRequestException('Password to weak')
+        }
         user.password = await this.hashPassword(password, user.salt);
+
 
 
         try {

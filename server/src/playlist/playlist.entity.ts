@@ -37,4 +37,9 @@ export class Playlist extends BaseEntity {
         }
         return true;
     }
+
+    async followValdiation(user: User): Promise<boolean> {
+        if(this)
+        return true;
+    }
 }

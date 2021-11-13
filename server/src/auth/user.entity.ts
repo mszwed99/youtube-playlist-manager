@@ -2,7 +2,6 @@ import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGe
 import * as bcrypt from 'bcrypt';
 import { Playlist } from "src/playlist/playlist.entity";
 
-
 @Entity()
 @Unique(['username'])
 export class User extends BaseEntity {
