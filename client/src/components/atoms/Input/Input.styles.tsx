@@ -22,7 +22,7 @@ export const Required = styled.span`
 `;
 
 // eslint-disable-next-line no-undef
-export const StyledInput = styled.input<{ rounded: boolean, fullwidth: boolean }>`
+export const StyledInput = styled.input<{ rounded: boolean, fullwidth: boolean, transparent: boolean }>`
   padding: ${({ theme }) => theme.spacing.xSmall}px;
   margin: ${({ theme }) => theme.spacing.small}px 0;
   border: 2px solid ${({ theme }) => theme.colors.grey};
@@ -43,6 +43,25 @@ export const StyledInput = styled.input<{ rounded: boolean, fullwidth: boolean }
     border-color: ${({ theme }) => theme.colors.primary};
     color: ${({ theme }) => theme.colors.primary};
   }
+
+  ${({ transparent }) => transparent && css`
+    background: transparent;
+    border: none;
+    border: 2px solid ${({ theme }) => theme.colors.grey};
+    border-color: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.colors.white};
+    height: 5vh;
+    
+    &::placeholder {
+      color: ${({ theme }) => theme.colors.white};
+    }
+
+    &:focus {
+      border-color: ${({ theme }) => theme.colors.white};
+      color: ${({ theme }) => theme.colors.white};
+    }
+  `}
+
 `;
 
 export const EyeIconContainer = styled.div`
