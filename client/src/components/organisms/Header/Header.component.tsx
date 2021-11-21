@@ -19,8 +19,14 @@ export const Header: React.FC = () => {
 
   const logout: () => void = () => dispatch(logOut());
 
-  const onSearchPress: (e: React.FormEvent<HTMLFormElement>) => void = (e: React.FormEvent<HTMLFormElement>) => {
+  const onEnterPress: (e: React.FormEvent<HTMLFormElement>) => void = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (searchValue) {
+      history.push(`/search/${searchValue}`);
+    }
+  }
+
+  const onSearchPress: () => void = () => {
     if (searchValue) {
       history.push(`/search/${searchValue}`);
     }
@@ -29,7 +35,7 @@ export const Header: React.FC = () => {
   return (
     <HeaderContainer>
       <Hamburger isToggled={isSidebarExpanded} onPress={toggleSidebar} />
-      <SearchContainer onSubmit={onSearchPress}>
+      <SearchContainer onSubmit={onEnterPress}>
         <Input value={searchValue} name='Search' onChange={handleSearchInputChange} transparent placeholder="Search" />
         <SearchButton onPress={onSearchPress} />
       </SearchContainer>
