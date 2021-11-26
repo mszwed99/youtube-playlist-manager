@@ -3,6 +3,7 @@ import MainTemplate from 'components/templates/MainTemplate/MainTemplate.compone
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import Home from 'screens/Home/Home';
 import SearchVideoScreen from 'screens/SearchVideoScreen/SearchVideoScreen.component';
+import VideoScreen from 'screens/VideoScreen/VideoScreen.component';
 
 
 const AuthorizedRoutes = () => (
@@ -11,6 +12,7 @@ const AuthorizedRoutes = () => (
       <MainTemplate>
         <Route exact path="/" component={Home} />
         <Route exact path="/search/:phrase" component={SearchVideoScreen} />
+        <Route exact path="/video/:videoId" component={VideoScreen} />
         {/* <Route path="*" component={Home} /> */}
       </MainTemplate>
     </Switch>

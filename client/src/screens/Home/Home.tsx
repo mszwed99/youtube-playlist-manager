@@ -1,5 +1,5 @@
 import React from 'react';
 
-const Home: React.FC = () => (<div>Projekt zespolowy 2021/2022</div>);
+const Home: React.FC = () => (<div>Nie posiadasz jeszcze zadnych playlist</div>);
 
 export default Home;
