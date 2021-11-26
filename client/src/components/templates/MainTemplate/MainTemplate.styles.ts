@@ -5,6 +5,7 @@ export const Container = styled.div`
   width: 100vw;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 `;
 
 export const Row = styled.div`
@@ -16,4 +17,5 @@ export const Row = styled.div`
 export const ContentContainer = styled.div`
   width: 100%;
   height: 100%;
+  overflow-y: scroll;
 `;
