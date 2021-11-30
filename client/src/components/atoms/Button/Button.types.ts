@@ -4,4 +4,5 @@ export interface ButtonPropsI {
   disabled?: boolean;
   fullwidth?: boolean;
   error?: boolean;
+  secondary?: boolean;
 }

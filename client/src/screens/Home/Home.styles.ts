@@ -7,5 +7,4 @@ export const ContainerWithoutPlaylists = styled.div`
   align-items: center;
   height: 100%;
   text-align: center;
-  background-color: red;
 `;
