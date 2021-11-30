@@ -3,4 +3,5 @@ export interface ButtonPropsI {
   onPress: () => void;
   disabled?: boolean;
   fullwidth?: boolean;
+  error?: boolean;
 }
