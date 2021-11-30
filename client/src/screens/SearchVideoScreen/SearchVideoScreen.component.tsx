@@ -3,16 +3,19 @@ import { RootState } from 'ducks/modules/rootReducer';
 import { getVideosByPhrase } from 'ducks/modules/SearchVideos/searchVideosSlice';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { videosMock } from './mocks';
 import { SearchVideoScreenContainer } from './SearchVideoScreen.style';
 
 const SearchVideoScreen: React.FC<{ match: any }> = ({ match }) => {
   const { phrase } = match.params;
   const dispatch = useDispatch();
-  const { videos, isLoading } = useSelector((state: RootState) => state.searchVideos);
+  // const { videos, isLoading } = useSelector((state: RootState) => state.searchVideos);
+  const videos = videosMock;
+  const isLoading = false;
 
-  useEffect(() => {
-    dispatch(getVideosByPhrase(phrase));
-  }, [dispatch, phrase]);
+  // useEffect(() => {
+  //   dispatch(getVideosByPhrase(phrase));
+  // }, [dispatch, phrase]);
 
   const shouldDisplayVideos: boolean = !isLoading && Boolean(videos.length);
 
