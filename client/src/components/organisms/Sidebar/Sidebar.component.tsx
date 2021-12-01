@@ -1,7 +1,7 @@
 import { SidebarItem } from 'components/atoms';
 import { MainTemplateContext } from 'components/templates/MainTemplate/MainTemplateContext';
 import React, { useContext } from 'react';
-import { FiHome } from 'react-icons/fi';
+import { FiHome, FiFilm } from 'react-icons/fi';
 import { SidebarContainer } from './Sidebar.styles';
 
 export const Sidebar: React.FC = () => {
@@ -9,6 +9,7 @@ export const Sidebar: React.FC = () => {
   return (
     <SidebarContainer isSidebarExpanded={isSidebarExpanded}>
       <SidebarItem label="Home" icon={<FiHome />} onPressRedirect="/" isSidebarExpanded={isSidebarExpanded} />
+      <SidebarItem label="Public playlists" icon={<FiFilm />} onPressRedirect="/playlists" isSidebarExpanded={isSidebarExpanded} />
     </SidebarContainer>
   );
 };

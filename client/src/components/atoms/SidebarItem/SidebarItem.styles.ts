@@ -24,7 +24,7 @@ export const SidebarItemContainer = styled.div<{ isSidebarExpanded: boolean }>`
 export const IconContainer = styled.div`
   width: 5vh;
   height: 5vh;
-  font-size: ${({ theme }) => theme.font.fontSize.xLarge};
+  font-size: ${({ theme }) => theme.font.fontSize.large};
   display: flex;
   justify-content: center;
   align-items: center;
