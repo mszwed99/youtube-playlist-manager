@@ -20,5 +20,18 @@ export const ModalContainer = styled.div`
   transform: translate(-50%, -50%);
   background: ${({ theme }) => theme.colors.white};
   padding: ${({ theme }) => theme.spacing.xLarge}px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   z-index: 101;
+`;
+
+export const ModalTitle = styled.h1`
+`;
+
+export const Spacer = styled.div`
+  width: 100%;
+  height: 1px;
+  background: ${({ theme }) => theme.colors.primary};
+  margin: ${({ theme }) => theme.spacing.large}px 0;
 `;
