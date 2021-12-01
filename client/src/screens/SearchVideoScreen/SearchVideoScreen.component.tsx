@@ -4,26 +4,33 @@ import { RootState } from 'ducks/modules/rootReducer';
 import { clearVideos, getVideosByPhrase } from 'ducks/modules/SearchVideos/searchVideosSlice';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { videosMock } from './mocks';
 import { RetryContainer, RetryMessage, SearchVideoScreenContainer } from './SearchVideoScreen.style';
 
 const SearchVideoScreen: React.FC<{ match: any }> = ({ match }) => {
   const { phrase } = match.params;
   const dispatch = useDispatch();
-  const { videos, isLoading, status } = useSelector((state: RootState) => state.searchVideos);
+  // const { videos, isLoading, status } = useSelector((state: RootState) => state.searchVideos);
+
+  const videos = videosMock;
+  const isLoading = false;
+  const status = "SUCCESS";
+
   const fetchVideos = useCallback(() => {
     dispatch(getVideosByPhrase(phrase));
   }, [dispatch, phrase]);
 
-  useEffect(() => {
-    fetchVideos();
+  // useEffect(() => {
+  //   fetchVideos();
 
-    return () => {
-      dispatch(clearVideos());
-    }
-  }, [dispatch, fetchVideos, phrase]);
+  //   return () => {
+  //     dispatch(clearVideos());
+  //   }
+  // }, [dispatch, fetchVideos, phrase]);
 
+  //@ts-ignore
   const shouldDisplayVideos: boolean = !isLoading && status !== 'ERROR' && Boolean(videos.length);
-
+  //@ts-ignore
   const shouldDisplayRetryButton: boolean = status === 'ERROR';
 
   return (

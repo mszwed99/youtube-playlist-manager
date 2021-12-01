@@ -4,3 +4,6 @@ export { RegisterForm } from './RegisterForm/RegisterForm.component';
 export { Header } from './Header/Header.component';
 export { VideoCard } from './VideoCard/VideoCard.component';
 export { VideoCardLoading } from './VideoCardLoading/VideoCardLoading.component';
+export { Modal } from './Modal/Modal.component';
+export { CreatePlaylistForm } from './CreatePlaylistForm/CreatePlaylistForm.component';
+export { PlaylistList } from './PlaylistList/PlaylistList.component';

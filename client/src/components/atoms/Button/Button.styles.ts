@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
 // eslint-disable-next-line no-undef
-export const StyledButton = styled.button<{fullwidth: boolean, error: boolean}>`
+export const StyledButton = styled.button<{fullwidth: boolean, error: boolean, secondary: boolean}>`
   padding: ${({ theme }) => theme.spacing.xSmall}px;
   background: ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.white};
@@ -21,5 +21,11 @@ export const StyledButton = styled.button<{fullwidth: boolean, error: boolean}>`
 
   ${({ error }) => error && css`
     background: ${({ theme }) => theme.colors.error};
+  `}
+
+  ${({ secondary }) => secondary && css`
+    border: 1px solid ${({ theme }) => theme.colors.primary};
+    background: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.colors.primary};
   `}
 `;

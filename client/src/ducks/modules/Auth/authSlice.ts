@@ -4,7 +4,6 @@ import { LoginPayloadI, RegisterPayloadI } from 'services/AuthService/AuthServic
 import { toast } from 'react-toastify';
 import { AuthStateI } from './authSlice.types';
 
-
 const initialState: AuthStateI = {
   jwtToken: localStorage.getItem('access-token') || null,
   wasAccountCreated: false,
