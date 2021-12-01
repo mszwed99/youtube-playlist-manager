@@ -1,20 +1,23 @@
 import { Button } from 'components/atoms';
-import { Modal } from 'components/organisms';
-import { createPlaylist, getPlaylists } from 'ducks/modules/UsersPlaylists/usersPlaylistsSlice';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-
-import { ContainerWithoutPlaylists } from './Home.styles';
+import { NoPlaylists } from 'components/molecules';
+import { CreatePlaylistForm, Modal, PlaylistList } from 'components/organisms';
+import { RootState } from 'ducks/modules/rootReducer';
+import { getPlaylists } from 'ducks/modules/UsersPlaylists/usersPlaylistsSlice';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { ContainerWithoutPlaylists, ContainerWithPlaylists, CreateButtonContainer } from './Home.styles';
 
 const Home: React.FC = () => {
-  const playlists = [];
+  const { playlists } = useSelector((state: RootState) => state.usersPlaylists);
   const dispatch = useDispatch()
   const [isNewPlaylistModalOpen, setIsNewPlaylistModalOpen] = useState(false);
 
+  useEffect(() => {
+    dispatch(getPlaylists());
+  }, [dispatch]);
+
   const openPlayListModal: () => void = () => {
     setIsNewPlaylistModalOpen(true);
-    // dispatch(createPlaylist({ name: 'test' }));
-    dispatch(getPlaylists());
   };
 
   const closePlayListModal: () => void = () => {
@@ -22,21 +25,25 @@ const Home: React.FC = () => {
   };
 
   const redirectToPublicPlaylists: () => void = () => {
-
+    // redirect to screen with playlists;
   }
 
   return (
-    playlists.length ? null : (
-      <ContainerWithoutPlaylists>
-        {isNewPlaylistModalOpen && <Modal onClose={closePlayListModal} body={"test"} />}
-        <p>Nie posiadasz jeszcze zadnych playlist</p>
-        <br />
-        <Button onPress={openPlayListModal} label="Stwórz swoją playlistę" />
-        <br />
-        <Button onPress={redirectToPublicPlaylists} label="Sprawdź playlisty innych" secondary />
-      </ContainerWithoutPlaylists >
-    )
-
+    <>
+      {isNewPlaylistModalOpen && <Modal title="Stwórz nową playlistę" onClose={closePlayListModal} body={<CreatePlaylistForm closeModalFc={closePlayListModal} />} />}
+      {playlists.length ? (
+        <ContainerWithPlaylists>
+          <CreateButtonContainer>
+            <Button onPress={openPlayListModal} label="Dodaj playlistę" />
+          </CreateButtonContainer>
+          <PlaylistList playlists={playlists} title="Twoje playlisty" />
+        </ContainerWithPlaylists>
+      ) : (
+        <ContainerWithoutPlaylists>
+          <NoPlaylists onPressOpenModal={openPlayListModal} onPressRedirect={redirectToPublicPlaylists} />
+        </ContainerWithoutPlaylists >
+      )}
+    </>
   );
 };
 
