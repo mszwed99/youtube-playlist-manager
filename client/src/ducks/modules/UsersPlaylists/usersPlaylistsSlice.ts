@@ -27,8 +27,8 @@ export const unfollowPlaylist = createAsyncThunk('playlist/unfollow', async (pay
   return await API.PlaylistService.unfollowPlaylist(payload);
 })
 
-const usersPlaylistSlice = createSlice({
-  name: 'searchVideos',
+const usersPlaylistsSlice = createSlice({
+  name: 'usersPlaylists',
   initialState,
   reducers: {
     clearPlaylists: state => {
@@ -82,6 +82,6 @@ const usersPlaylistSlice = createSlice({
   },
 });
 
-export const { clearPlaylists } = usersPlaylistSlice.actions;
+export const { clearPlaylists } = usersPlaylistsSlice.actions;
 
-export default usersPlaylistSlice.reducer;
+export default usersPlaylistsSlice.reducer;
