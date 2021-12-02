@@ -8,6 +8,19 @@ import { followValidation } from "./follow-validation";
 @EntityRepository(Playlist)
 export class PlaylistRepository extends Repository<Playlist> {
 
+    
+    async getFollowedPlaylists(user: User): Promise<Playlist[]> {
+        console.log(user.followed)
+        const user_id = user.id
+
+        const playlists = await this.createQueryBuilder("playlist")
+            .leftJoinAndSelect("playlist.followers", "followers")
+            .where("followers.userId")
+            .getMany()
+
+        return playlists;
+    }
+    
     async getUserPlaylists(user: User): Promise<Playlist[]> {
         const playlists = await this.find({ where: {
             owner: user
@@ -17,21 +30,11 @@ export class PlaylistRepository extends Repository<Playlist> {
         return playlists;
     }
 
-    async getFollowedPlaylists(user: User): Promise<Playlist[]> {
-        const playlists: Playlist[] = null;
-        playlists.push(this.create())
-
-        return playlists;
-    }
-
     async getPublicPlaylists(): Promise<Playlist[]> {
         const playlists = await this.find({ where: {
             public: true
         }});
 
-        if(playlists.length === 0) {
-            throw new NotFoundException('No public playlists avaible');
-        }
         return playlists;
     }
 
@@ -39,10 +42,11 @@ export class PlaylistRepository extends Repository<Playlist> {
         user: User, 
         createPlaylistDto: CreatePlaylistDto
     ): Promise<Playlist> {
-        const { name } = createPlaylistDto;
+        const { name, isPublic } = createPlaylistDto;
         const playlist = await this.create();
-
+    
         playlist.name = name;
+        playlist.public = isPublic;
         playlist.owner = user;
 
         await playlist.save();

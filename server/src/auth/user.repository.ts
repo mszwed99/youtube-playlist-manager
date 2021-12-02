@@ -3,9 +3,28 @@ import { EntityRepository, Repository } from "typeorm";
 import { AuthCredentialsDto } from "./dto/auth-credentials.dto";
 import { User } from "./user.entity";
 import * as bcrypt from 'bcrypt';
+import { Playlist } from "src/playlist/playlist.entity";
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
+
+    async getFollowedPlaylists(user: User): Promise<Playlist[]> {
+
+        const userInfo: User = await this.findOne({
+            relations: ["followed"],
+            where: {
+                id: user.id
+            }
+        })
+
+        if(!userInfo) {
+            return []
+        }
+
+        const playlists = userInfo.followed
+        return playlists;
+    }
+
     async signUp(authCredentialsDto: AuthCredentialsDto): Promise<any> {
         const { username, password } = authCredentialsDto;
 

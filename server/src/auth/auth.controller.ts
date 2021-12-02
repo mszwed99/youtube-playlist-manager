@@ -12,18 +12,17 @@ export class AuthController {
     ) {}
 
     @Post('signup')
-    signUp(@Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto):  Promise<any> {
+    signUp(
+        @Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto
+    ): Promise<any> {
         return this.authService.signUp(authCredentialsDto);
     }
 
     @Post('signin')
-    signIn(@Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }>{
+    signIn(
+        @Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto
+    ): Promise<{ accessToken: string }>{
         return this.authService.signIn(authCredentialsDto);
     }
 
-    @Get('test')
-    @UseGuards(AuthGuard())
-    test(@GetUser() user: User) {
-        return user;
-    }
 }

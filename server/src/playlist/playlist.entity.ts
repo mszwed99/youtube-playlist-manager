@@ -21,7 +21,7 @@ export class Playlist extends BaseEntity {
     // videos: Video[];
 
     @ManyToMany(
-        () => User, (follower) => follower.followed, { cascade: true }
+        () => User, (user) => user.followed, { cascade: true }
     )
     @JoinTable()
     followers: User[];
