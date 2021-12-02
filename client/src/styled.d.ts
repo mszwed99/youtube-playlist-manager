@@ -3,10 +3,12 @@ import 'styled-components';
 export interface ThemeColors {
   primary: string;
   secondary: string;
+  secondary100: string;
   tertiary: string;
   error: string;
   warning: string;
   white: string;
+  white100: string;
   black: string;
   grey:string;
 }
