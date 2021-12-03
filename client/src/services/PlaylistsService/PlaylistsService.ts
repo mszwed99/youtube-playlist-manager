@@ -7,7 +7,7 @@ export const getPublicPlaylists = () => APIService.get('playlist/public');
 
 export const getFollowedPlaylists = () => APIService.get('playlist/followed');
 
-export const createPlaylist = (payload: CreatePlaylistI) => APIService.post('playlist/create', { ...payload });
+export const createPlaylist = (payload: CreatePlaylistI) => APIService.post('playlist', { ...payload });
 
 export const followPlaylist = (payload: FollowPlaylistI) => APIService.post(`playlist/follow/${payload.id}`);
 
