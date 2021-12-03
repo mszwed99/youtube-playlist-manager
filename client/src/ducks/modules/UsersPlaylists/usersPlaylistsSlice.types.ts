@@ -2,9 +2,9 @@ import { Status } from "ducks/types";
 
 export interface UsersPlaylistsStateI {
   playlists: Playlist[];
-  isLoading: boolean;
   playlistsCallStatus: Status;
-  isFollowLoading: boolean;
+  followedPlaylists: Playlist[];
+  followedPlaylistsCallStatus: Status;
 }
 
 export interface Playlist {
