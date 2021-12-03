@@ -1,19 +1,29 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
-
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn, Unique, ManyToMany, JoinTable } from "typeorm";
+import { Playlist } from "src/playlist/playlist.entity";
 @Entity()
 export class Video extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    title: string;
+    videoId: string;
  
     @Column()
-    duration: string;
+    title: string;
+    
+    @Column()
+    channelTitle: string;
 
     @Column()
-    url: string;
+    description: string;
 
     @Column()
-    thumbnail: string;   
+    publishTime: string;
+
+    @Column()
+    thumbnail: string;
+
+    @ManyToMany(() => Playlist, (playlist) => playlist.videos, { cascade: true } )
+    @JoinTable()
+    playlists: Playlist[];
 }

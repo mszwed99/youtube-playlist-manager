@@ -20,11 +20,15 @@ export class Playlist extends BaseEntity {
 
     // videos: Video[];
 
-    @ManyToMany(
-        () => User, (user) => user.followed, { cascade: true }
-    )
+    @ManyToMany(() => User, (user) => user.followed, { cascade: true } )
     @JoinTable()
     followers: User[];
+
+
+    @ManyToMany(() => Video, video => video.playlists)
+    videos: Video[];
+    
+
 
     async checkIfPublic(): Promise<boolean> {
         return this.public;

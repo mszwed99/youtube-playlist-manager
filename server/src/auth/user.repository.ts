@@ -22,6 +22,7 @@ export class UserRepository extends Repository<User> {
         }
 
         const playlists = userInfo.followed
+        playlists.filter(p => p.public === true)
         return playlists;
     }
 
