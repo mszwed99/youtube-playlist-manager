@@ -28,7 +28,7 @@ export class Playlist extends BaseEntity {
     @ManyToMany(() => Video, video => video.playlists)
     videos: Video[];
     
-
+    isFollowed?: boolean;
 
     async checkIfPublic(): Promise<boolean> {
         return this.public;
@@ -46,4 +46,6 @@ export class Playlist extends BaseEntity {
         if(this)
         return true;
     }
+
+
 }
