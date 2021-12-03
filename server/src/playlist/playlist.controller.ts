@@ -14,14 +14,15 @@ export class PlaylistController {
     ) {}
 
 
-
-    @Get('/:id')
+    @Get('info/:id')
     getPlaylistInfo(
         @GetUser() user: User,
         @Param('id', ParseIntPipe) id: number
     ): Promise<Playlist> {
         return this.playlistService.getPlaylistInfo(id, user);
-    }
+
+    }    
+  
 
     @Get()
     getUserPlaylists(
@@ -38,12 +39,12 @@ export class PlaylistController {
     }
 
     @Get('public')
-    getPublicPlaylists(): Promise<Playlist[]> {
+    getPublicPlaylists(): Promise<Playlist[]> {    
         return this.playlistService.getPublicPlaylists();
     }
 
 
-    @Post('create')
+    @Post()
     createPlaylist(
         @GetUser() user: User,
         @Body(ValidationPipe) createPlaylistDto: CreatePlaylistDto,
@@ -83,4 +84,7 @@ export class PlaylistController {
     ): Promise<void> {
         return this.playlistService.deletePlaylist(id, user);
     }
+
+
+   
 }

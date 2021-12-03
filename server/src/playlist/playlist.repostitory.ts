@@ -13,14 +13,15 @@ export class PlaylistRepository extends Repository<Playlist> {
 
 
     async getPlaylistInfo(id: number, user: User): Promise<Playlist> {
-        const playlist = await this.findOne({id}, {
+        const playlist: Playlist = await this.findOne({id}, {
             relations:['videos', 'followers']
         })
-        console.log(user.username)
-        if(playlist.public) {
+        
+
+        if(playlist?.public) {
             return playlist
         }
-        if(playlist.owner.id === user.id){
+        if(playlist?.owner.id === user.id){
             return playlist;
         }
 
