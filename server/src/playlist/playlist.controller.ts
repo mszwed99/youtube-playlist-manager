@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { User } from 'src/auth/user.entity';
@@ -12,6 +12,16 @@ export class PlaylistController {
     constructor(
         private playlistService: PlaylistService
     ) {}
+
+
+
+    @Get('/:id')
+    getPlaylistInfo(
+        @GetUser() user: User,
+        @Param('id', ParseIntPipe) id: number
+    ): Promise<Playlist> {
+        return this.playlistService.getPlaylistInfo(id, user);
+    }
 
     @Get()
     getUserPlaylists(
@@ -55,5 +65,22 @@ export class PlaylistController {
         @GetUser() user: User,
     ): Promise<Playlist> {
         return this.playlistService.unfollowPlaylist(id, user);
+    }
+
+    @Patch('edit/:id')
+    editPlaylidt(
+        @Param('id', ParseIntPipe) id: number,
+        @GetUser() user: User,
+        @Body(ValidationPipe) createPlaylistDto: CreatePlaylistDto
+    ): Promise<Playlist> {
+        return this.playlistService.editPlaylist(id, user, createPlaylistDto);
+    }
+
+    @Delete('delete/:id')
+    deletePlaylist(
+        @Param('id', ParseIntPipe) id: number,
+        @GetUser() user: User
+    ): Promise<void> {
+        return this.playlistService.deletePlaylist(id, user);
     }
 }

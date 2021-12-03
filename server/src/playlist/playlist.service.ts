@@ -16,6 +16,13 @@ export class PlaylistService {
         private userRepository: UserRepository
     ) {}
 
+
+    async getPlaylistInfo(id: number, user: User): Promise<Playlist> {
+        return this.playlistRepository.getPlaylistInfo(id, user);
+    }
+
+
+
     async getUserPlaylists(user: User): Promise<Playlist[]> {
         return this.playlistRepository.getUserPlaylists(user);
     }
@@ -37,6 +44,14 @@ export class PlaylistService {
         createPlaylistDto: CreatePlaylistDto,  
     ): Promise<Playlist> {
         return this.playlistRepository.createPlaylist(user, createPlaylistDto);
+    }
+ 
+    async editPlaylist(id: number, user: User, createPlaylistDto: CreatePlaylistDto): Promise<Playlist> {
+        return this.playlistRepository.editPlaylist(id, user, createPlaylistDto);
+    }
+
+    async deletePlaylist(id: number, user: User): Promise<void> {
+        return this.playlistRepository.deletePlaylist(id, user);
     }
 
     async followPlaylist(id: number, user: User): Promise<Playlist> {

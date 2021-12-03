@@ -3,13 +3,19 @@ import { IsNotEmpty } from "class-validator";
 
 export class AddVideoDto {
     @IsNotEmpty()
-    title: string;
+    videoId: string;
  
     @IsNotEmpty()
-    duration: string;
+    title: string;
+    
+    @IsNotEmpty()
+    channelTitle: string;
 
     @IsNotEmpty()
-    url: string;
+    description: string;
+
+    @IsNotEmpty()
+    publishTime: string;
 
     @IsNotEmpty()
     thumbnail: string;

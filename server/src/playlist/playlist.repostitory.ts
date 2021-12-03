@@ -4,28 +4,70 @@ import { EntityRepository, Not, Repository } from "typeorm";
 import { CreatePlaylistDto } from "./dto/create-playlist.dto";
 import { Playlist } from "./playlist.entity";
 import { followValidation } from "./follow-validation";
+import { Video } from "src/video/video.entity";
+import { AddVideoDto } from "src/video/dto/add-video.dto";
+
 
 @EntityRepository(Playlist)
 export class PlaylistRepository extends Repository<Playlist> {
 
-    
-    async getFollowedPlaylists(user: User): Promise<Playlist[]> {
-        console.log(user.followed)
-        const user_id = user.id
 
-        const playlists = await this.createQueryBuilder("playlist")
-            .leftJoinAndSelect("playlist.followers", "followers")
-            .where("followers.userId")
-            .getMany()
+    async getPlaylistInfo(id: number, user: User): Promise<Playlist> {
+        const playlist = await this.findOne({id}, {
+            relations:['videos', 'followers']
+        })
+        console.log(user.username)
+        if(playlist.public) {
+            return playlist
+        }
+        if(playlist.owner.id === user.id){
+            return playlist;
+        }
 
-        return playlists;
+        throw new NotFoundException(`Playlist with id ${id} not found`);
     }
-    
+
+
+
+    async addVideoToPlaylist(user: User, id: number, video: Video): Promise<Playlist> {
+        const playlist = await this.findOne({id}, {
+            relations:['videos']
+        })
+        const videoExist: Video = playlist.videos.find(v => v.videoId === video.videoId)
+        if(!videoExist) {
+            playlist.videos = [...playlist.videos, video]
+            await playlist.save()
+            return playlist;
+        }
+        return playlist;
+    }
+
+    async removeVideoFromPlaylist(user: User, idPlaylist: number, idVideo: string): Promise<void> {
+        console.log(user.id)
+        const playlist = await this.findOne({id: idPlaylist, owner: user}, {
+            relations:['videos']
+        })
+        if(!playlist) {
+            throw new NotFoundException(`Playlist with id ${idPlaylist} not found`);
+        }
+
+        const videoExist  = playlist.videos.filter(v => v.videoId !== idVideo)
+
+        // if(!videoExist) {
+        //     throw new NotFoundException(`Video with id ${idVideo} not found`);
+        //     // playlist.videos = [...playlist.videos, video]
+        //     // await playlist.save()
+        //     // return playlist;
+        // }
+
+        console.log(videoExist)
+    }
+
     async getUserPlaylists(user: User): Promise<Playlist[]> {
         const playlists = await this.find({ where: {
             owner: user
         },
-            relations:['followers']
+            relations:['followers', 'videos']
         });
         return playlists;
     }
@@ -33,7 +75,8 @@ export class PlaylistRepository extends Repository<Playlist> {
     async getPublicPlaylists(): Promise<Playlist[]> {
         const playlists = await this.find({ where: {
             public: true
-        }});
+        }, 
+            relations: ["followers"]});
 
         return playlists;
     }
@@ -51,6 +94,32 @@ export class PlaylistRepository extends Repository<Playlist> {
 
         await playlist.save();
         return playlist;
+    }
+
+    async deletePlaylist(id: number, user: User): Promise<void> {
+        const result = await this.delete({ id, owner: user})
+        if(result.affected === 0) {
+            throw new NotFoundException(`Playlist with id ${id} not found`);
+        }
+    }
+
+
+    async editPlaylist(id: number, user: User, createPlaylistDto: CreatePlaylistDto): Promise<Playlist> {
+        const playlist = await this.findOne({id})
+
+        if(!playlist) {
+            throw new NotFoundException('Not found')
+        }
+
+        if(playlist.owner.id !== user.id) {
+            throw new NotFoundException('Not found')
+        }
+
+        playlist.name = createPlaylistDto.name;
+        playlist.public = createPlaylistDto.isPublic;
+
+        await playlist.save()
+        return playlist
     }
 
     async followPlaylist(id: number, user: User): Promise<Playlist> {
