@@ -16,6 +16,17 @@ export const PlaylistThumbnail = styled.img`
   object-fit: contain;
 `;
 
+export const ThumbnailPlaceholder = styled.div`
+  height: 240px;
+  width: 360px;
+  background: ${({ theme }) => theme.colors.white100};
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+`;
+
 export const VideoDetails = styled.div`
   height: 100%;
   display: flex;

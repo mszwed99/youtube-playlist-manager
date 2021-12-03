@@ -5,7 +5,7 @@ import Home from 'screens/Home/Home';
 import SearchVideoScreen from 'screens/SearchVideoScreen/SearchVideoScreen.component';
 import VideoScreen from 'screens/VideoScreen/VideoScreen.component';
 import PublicPlaylists from 'screens/PublicPlaylists/PublicPlaylists.component';
-
+import PlaylistScreen from 'screens/Playlist/Playlist.component';
 
 const AuthorizedRoutes = () => (
   <Router>
@@ -15,6 +15,7 @@ const AuthorizedRoutes = () => (
         <Route exact path="/playlists" component={PublicPlaylists} />
         <Route exact path="/search/:phrase" component={SearchVideoScreen} />
         <Route exact path="/video/:videoId" component={VideoScreen} />
+        <Route exact path="/playlist/:playlistId" component={PlaylistScreen} />
         {/* <Route path="*" component={Home} /> */}
       </MainTemplate>
     </Switch>
