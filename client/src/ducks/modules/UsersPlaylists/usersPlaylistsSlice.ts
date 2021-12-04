@@ -6,13 +6,17 @@ import { CreatePlaylistI, FollowPlaylistI } from '../../../services/PlaylistsSer
 
 const initialState: UsersPlaylistsStateI = {
   playlists: [],
-  isLoading: false,
   playlistsCallStatus: 'NOT_SET',
-  isFollowLoading: false,
+  followedPlaylists: [],
+  followedPlaylistsCallStatus: 'NOT_SET',
 };
 
 export const getPlaylists = createAsyncThunk('playlist', async () => {
   return await API.PlaylistService.getPlaylists();
+});
+
+export const getFollowedPlaylists = createAsyncThunk('playlist/followed', async () => {
+  return await API.PlaylistService.getFollowedPlaylists();
 });
 
 export const createPlaylist = createAsyncThunk('playlist/create', async (payload: CreatePlaylistI)  => {
@@ -33,52 +37,40 @@ const usersPlaylistsSlice = createSlice({
   reducers: {
     clearPlaylists: state => {
       state.playlists = []
-      state.isLoading = false;
       state.playlistsCallStatus = 'NOT_SET';
+      state.followedPlaylists = [];
+      state.followedPlaylistsCallStatus = 'NOT_SET';
     }
   },
   extraReducers: {
     [getPlaylists.pending.toString()]: state => {
-      state.isLoading = true;
+      state.playlistsCallStatus = 'LOADING';
     },
     [getPlaylists.rejected.toString()]: (state) => {
-      state.isLoading = false;
       state.playlistsCallStatus = 'ERROR';
       toast.error('Nie udało się pobrać playlist');
     },
     [getPlaylists.fulfilled.toString()]: (state, action) => {
-      state.isLoading = false;
       state.playlistsCallStatus = 'SUCCESS';
       state.playlists = action.payload.data;
     },
-    [createPlaylist.pending.toString()]: state => {
-      state.isLoading = true;
+    [getFollowedPlaylists.pending.toString()]: state => {
+      state.followedPlaylistsCallStatus = 'LOADING';
+    },
+    [getFollowedPlaylists.rejected.toString()]: (state) => {
+      state.followedPlaylistsCallStatus = 'ERROR';
+      toast.error('Nie udało się pobrać playlist');
+    },
+    [getFollowedPlaylists.fulfilled.toString()]: (state, action) => {
+      state.followedPlaylistsCallStatus = 'SUCCESS';
+      state.followedPlaylists = action.payload.data;
     },
     [createPlaylist.rejected.toString()]: state => {
-      state.isLoading = false;
       toast.error('Nie udało się stworzyć playlisty');
     },
-    [createPlaylist.fulfilled.toString()]: state => {
-      state.isLoading = false;
+    [createPlaylist.fulfilled.toString()]: (_, action) => {
+      toast.success(`Utworzono playlistę ${action.payload.data.name}`);
     },
-    [followPlaylist.pending.toString()]: state => {
-      state.isFollowLoading = true;
-    },
-    [followPlaylist.rejected.toString()]: state => {
-      state.isFollowLoading = false;
-    },
-    [followPlaylist.fulfilled.toString()]: state => {
-      state.isFollowLoading = false;
-    },
-    [unfollowPlaylist.pending.toString()]: state => {
-      state.isFollowLoading = true;
-    },
-    [unfollowPlaylist.rejected.toString()]: state => {
-      state.isFollowLoading = false;
-    },
-    [unfollowPlaylist.fulfilled.toString()]: state => {
-      state.isFollowLoading = false;
-    }
   },
 });
 

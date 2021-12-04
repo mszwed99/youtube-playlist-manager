@@ -9,7 +9,7 @@ export const NoPlaylists: React.FC<NoPlaylistsPropsI> = ({ onPressOpenModal, onP
       <br />
       <Button onPress={onPressOpenModal} label="Stwórz swoją playlistę" />
       <br />
-      <Button onPress={onPressRedirect} label="Sprawdź playlisty innych" secondary />
+      <Button onPress={onPressRedirect} label="Sprawdź publiczne playlisty" secondary />
     </>
   );
 };

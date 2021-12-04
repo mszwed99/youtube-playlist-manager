@@ -11,7 +11,7 @@ const Routes = () => {
 
   return (
     <Router>
-      {jwtToken ? <Route exact path="/" component={AuthorizedRoutes} /> : <Route exact path="/" component={UnauthorizedRoutes} />}
+      {jwtToken ? <Route component={AuthorizedRoutes} /> : <Route exact path="/" component={UnauthorizedRoutes} />}
       <ToastContainer
         position="top-center"
         autoClose={5000}
