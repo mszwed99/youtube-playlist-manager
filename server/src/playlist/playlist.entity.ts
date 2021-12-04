@@ -35,6 +35,7 @@ export class Playlist extends BaseEntity {
     }
 
     async checkIfFollowed(user: User): Promise<boolean> {
+        console.log('check error')
         const find = this.followers.filter(e => e.id === user.id)
         if(find.length === 0) {
             return false

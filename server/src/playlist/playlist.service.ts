@@ -35,8 +35,8 @@ export class PlaylistService {
     }
 
 
-    async getPublicPlaylists(): Promise<Playlist[]> {
-        return this.playlistRepository.getPublicPlaylists();
+    async getPublicPlaylists(user: User): Promise<Playlist[]> {
+        return this.playlistRepository.getPublicPlaylists(user);
     }
 
     async createPlaylist(

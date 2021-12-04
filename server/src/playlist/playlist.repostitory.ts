@@ -3,32 +3,11 @@ import { User } from "src/auth/user.entity";
 import { EntityRepository, Not, Repository } from "typeorm";
 import { CreatePlaylistDto } from "./dto/create-playlist.dto";
 import { Playlist } from "./playlist.entity";
-import { followValidation } from "./follow-validation";
+import { followValidation, filterFollow } from "./follow-validation";
 import { Video } from "src/video/video.entity";
 
 @EntityRepository(Playlist)
 export class PlaylistRepository extends Repository<Playlist> {
-
-
-    async getPlaylistInfo(id: number, user: User): Promise<Playlist> {
-        const playlist: Playlist = await this.findOne({id}, {
-            relations:['videos', 'followers']
-        })
-
-        const isFollowed = await playlist.checkIfFollowed(user);
-        playlist.isFollowed = isFollowed;
-
-        if(playlist?.public) {
-            
-            return playlist;
-        }
-        if(playlist?.owner.id === user.id){
-            return playlist;
-        }
-        
-
-        throw new NotFoundException(`Playlist with id ${id} not found`);
-    }
 
 
 
@@ -66,24 +45,88 @@ export class PlaylistRepository extends Repository<Playlist> {
         console.log(videoExist)
     }
 
+    async getPlaylistInfo(id: number, user: User): Promise<Playlist> {
+        const playlist: Playlist = await this.findOne({id}, {
+            relations:['videos', 'followers']
+        })
+
+        const isFollowed = await playlist.checkIfFollowed(user);
+        playlist.isFollowed = isFollowed;
+
+        if(playlist?.public) {
+            
+            return playlist;
+        }
+        if(playlist?.owner.id === user.id){
+            return playlist;
+        }
+        
+
+        throw new NotFoundException(`Playlist with id ${id} not found`);
+    }
+
+
+
     async getUserPlaylists(user: User): Promise<Playlist[]> {
-        const playlists = await this.find({ where: {
+        let playlists = await this.find({ where: {
             owner: user
         },
             relations:['followers', 'videos']
         });
+
+        playlists = await filterFollow(playlists, user)
+
         return playlists;
     }
 
-    async getPublicPlaylists(): Promise<Playlist[]> {
-        const playlists = await this.find({ where: {
+    async getPublicPlaylists(user: User): Promise<Playlist[]> {
+        let playlists = await this.find({ where: {
             public: true
         }, 
             relations: ["followers"]});
 
-
+        playlists = await filterFollow(playlists, user)
         return playlists;
     }
+
+    async followPlaylist(id: number, user: User): Promise<Playlist> {
+        const playlist = await this.findOne({id}, {
+            relations:['followers']
+        })
+        
+        await followValidation(playlist, user)
+
+        if(await playlist.checkIfFollowed(user)) {
+            throw new ConflictException('You already follow this playlist');
+        }
+
+        playlist.followers = [...playlist.followers, user];
+        await playlist.save();
+
+        const isFollowed = await playlist.checkIfFollowed(user);
+        playlist.isFollowed = isFollowed;
+        return playlist;
+    }
+    
+    async unfollowPlaylist(id: number, user: User): Promise<Playlist> {
+        const playlist = await this.findOne({id}, {
+            relations:['followers']
+        })
+
+        await followValidation(playlist, user)
+
+        if(!await playlist.checkIfFollowed(user)) {
+            throw new NotFoundException('You do not follow this playlist');
+        }
+
+        playlist.followers = playlist.followers.filter(e => e.id !== user.id)
+        await playlist.save();
+
+        const isFollowed = await playlist.checkIfFollowed(user);
+        playlist.isFollowed = isFollowed;
+        return playlist;
+    } 
+
 
     async createPlaylist(
         user: User, 
@@ -126,35 +169,18 @@ export class PlaylistRepository extends Repository<Playlist> {
         return playlist
     }
 
-    async followPlaylist(id: number, user: User): Promise<Playlist> {
-        const playlist = await this.findOne({id}, {
-            relations:['followers']
-        })
-        
-        await followValidation(playlist, user)
+  
 
-        if(await playlist.checkIfFollowed(user)) {
-            throw new ConflictException('You already follow this playlist');
-        }
 
-        playlist.followers = [...playlist.followers, user];
-        await playlist.save();
-        return playlist;
-    }
-    
-    async unfollowPlaylist(id: number, user: User): Promise<Playlist> {
-        const playlist = await this.findOne({id}, {
-            relations:['followers']
-        })
 
-        await followValidation(playlist, user)
+    // async filterFollow(playlists: Playlist[], user: User): Promise<Playlist[]> {
+    //     if(!playlists)
+    //         return playlists
 
-        if(!await playlist.checkIfFollowed(user)) {
-            throw new NotFoundException('You do not follow this playlist');
-        }
+    //     for (let playlist of playlists) {
+    //         playlist.isFollowed = await playlist.checkIfFollowed(user);
+    //     }
 
-        playlist.followers = playlist.followers.filter(e => e.id !== user.id)
-        await playlist.save();
-        return playlist;
-    }   
+    //     return playlists
+    // }
 }

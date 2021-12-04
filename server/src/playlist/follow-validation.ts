@@ -14,3 +14,15 @@ export async function followValidation(playlist: Playlist, user: User): Promise<
         throw new NotFoundException('Playlist is private');
     }
 }
+
+
+export async function filterFollow(playlists: Playlist[], user: User): Promise<Playlist[]> {
+    if(!playlists)
+        return playlists
+
+    for (let playlist of playlists) {
+        playlist.isFollowed = await playlist.checkIfFollowed(user);
+    }
+
+    return playlists
+}
