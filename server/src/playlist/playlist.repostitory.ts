@@ -5,8 +5,6 @@ import { CreatePlaylistDto } from "./dto/create-playlist.dto";
 import { Playlist } from "./playlist.entity";
 import { followValidation } from "./follow-validation";
 import { Video } from "src/video/video.entity";
-import { AddVideoDto } from "src/video/dto/add-video.dto";
-
 
 @EntityRepository(Playlist)
 export class PlaylistRepository extends Repository<Playlist> {
@@ -16,14 +14,18 @@ export class PlaylistRepository extends Repository<Playlist> {
         const playlist: Playlist = await this.findOne({id}, {
             relations:['videos', 'followers']
         })
-        
+
+        const isFollowed = await playlist.checkIfFollowed(user);
+        playlist.isFollowed = isFollowed;
 
         if(playlist?.public) {
-            return playlist
+            
+            return playlist;
         }
         if(playlist?.owner.id === user.id){
             return playlist;
         }
+        
 
         throw new NotFoundException(`Playlist with id ${id} not found`);
     }
@@ -78,6 +80,7 @@ export class PlaylistRepository extends Repository<Playlist> {
             public: true
         }, 
             relations: ["followers"]});
+
 
         return playlists;
     }
