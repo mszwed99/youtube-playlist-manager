@@ -24,6 +24,7 @@ const authSlice = createSlice({
   reducers: {
     logOut: state => {
       state.jwtToken = null;
+      localStorage.removeItem('access-token');
     },
     enterAccountCreatedScreen: state => {
       state.wasAccountCreated = false;

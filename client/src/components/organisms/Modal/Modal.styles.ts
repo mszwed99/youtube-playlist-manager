@@ -24,6 +24,7 @@ export const ModalContainer = styled.div`
   flex-direction: column;
   align-items: center;
   z-index: 101;
+  box-shadow: 0px 4px 24px 0px black;
 `;
 
 export const ModalTitle = styled.h1`

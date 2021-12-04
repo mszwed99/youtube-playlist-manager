@@ -1,1 +1,1 @@
-export type Status = 'NOT_SET' | 'ERROR' | 'SUCCESS';
+export type Status = 'NOT_SET' | 'LOADING' |  'ERROR' | 'SUCCESS';
