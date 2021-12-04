@@ -17,8 +17,8 @@ export class Video extends BaseEntity {
     @Column()
     description: string;
 
-    @Column()
-    publishTime: string;
+    @Column({default: new Date()})
+    publishTime: Date;
 
     @Column()
     thumbnail: string;

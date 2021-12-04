@@ -24,7 +24,6 @@ export class VideoService {
             title, 
             channelTitle, 
             description, 
-            publishTime, 
             thumbnail } = addVideoDto;
 
         const video = await this.videoRepository.create({
@@ -32,7 +31,6 @@ export class VideoService {
             title, 
             channelTitle, 
             description, 
-            publishTime, 
             thumbnail
         });
 
