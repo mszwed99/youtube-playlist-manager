@@ -54,6 +54,17 @@ const usersPlaylistsSlice = createSlice({
       state.playlistsCallStatus = 'SUCCESS';
       state.playlists = action.payload.data;
     },
+    [getFollowedPlaylists.pending.toString()]: state => {
+      state.followedPlaylistsCallStatus = 'LOADING';
+    },
+    [getFollowedPlaylists.rejected.toString()]: (state) => {
+      state.followedPlaylistsCallStatus = 'ERROR';
+      toast.error('Nie udało się pobrać playlist');
+    },
+    [getFollowedPlaylists.fulfilled.toString()]: (state, action) => {
+      state.followedPlaylistsCallStatus = 'SUCCESS';
+      state.followedPlaylists = action.payload.data;
+    },
     [createPlaylist.rejected.toString()]: state => {
       toast.error('Nie udało się stworzyć playlisty');
     },

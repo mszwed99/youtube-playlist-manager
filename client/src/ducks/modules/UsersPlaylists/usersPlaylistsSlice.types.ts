@@ -11,7 +11,12 @@ export interface Playlist {
   id: number;
   name: string;
   public: boolean;
-  followers: any[];
+  followers: {
+    id: number;
+    username: string;
+    password: string;
+    salt: string;
+  }[];
   owner: {
     id: number;
     username: string;

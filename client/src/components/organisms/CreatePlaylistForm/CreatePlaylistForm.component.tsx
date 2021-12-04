@@ -12,7 +12,7 @@ export const CreatePlaylistForm: React.FC<CreatePlaylistFormPropsI> = ({ closeMo
 
   const onPressCreate: () => void = async () => {
     if (playlistName) {
-      await dispatch(createPlaylist({ name: playlistName, isPublic: true }));
+      await dispatch(createPlaylist({ name: playlistName, isPublic: isPublicPlaylist }));
       await dispatch(getPlaylists());
       closeModalFc();
     }
