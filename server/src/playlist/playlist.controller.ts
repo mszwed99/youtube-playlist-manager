@@ -1,13 +1,15 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards, UsePipes,
+     ValidationPipe, ClassSerializerInterceptor,SerializeOptions,UseInterceptors} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { User } from 'src/auth/user.entity';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
-import { Playlist } from './playlist.entity';
+import { Playlist,GROUP_ALL_USERS, GROUP_USER, } from './playlist.entity';
 import { PlaylistService } from './playlist.service';
 
 @UseGuards(AuthGuard())
 @Controller('playlist')
+@UseInterceptors(ClassSerializerInterceptor)
 export class PlaylistController {
     constructor(
         private playlistService: PlaylistService
@@ -15,6 +17,9 @@ export class PlaylistController {
 
 
     @Get('info/:id')
+    @SerializeOptions({
+        groups: [GROUP_USER],
+      })
     getPlaylistInfo(
         @GetUser() user: User,
         @Param('id', ParseIntPipe) id: number
@@ -25,8 +30,11 @@ export class PlaylistController {
   
 
     @Get()
-    getUserPlaylists(
-        @GetUser() user: User
+    @SerializeOptions({
+        groups: [GROUP_ALL_USERS],
+      })
+    async getUserPlaylists(
+        @GetUser() user: User,
     ): Promise<Playlist[]> {
         return this.playlistService.getUserPlaylists(user);
     }
