@@ -18,7 +18,7 @@ export class Playlist extends BaseEntity {
     @Expose({ groups: [GROUP_PLAYLIST,GROUP_ALL_PLAYLISTS] })
     name: string;
 
-    @Column({default: false})
+    @Column()
     @Expose({ groups: [GROUP_PLAYLIST,GROUP_ALL_PLAYLISTS] })
     public: boolean;
     
