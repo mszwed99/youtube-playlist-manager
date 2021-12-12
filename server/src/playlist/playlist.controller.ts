@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards, UsePipes,
-     ValidationPipe, ClassSerializerInterceptor,SerializeOptions,UseInterceptors} from '@nestjs/common';
+     ValidationPipe, ClassSerializerInterceptor,SerializeOptions,UseInterceptors, Query} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { User } from 'src/auth/user.entity';
@@ -33,9 +33,10 @@ export class PlaylistController {
     @SerializeOptions({
         groups: [GROUP_ALL_PLAYLISTS],
       })
-    async getUserPlaylists(
+    async getUserPlaylists(@Query() paginationQuery,
         @GetUser() user: User,
     ): Promise<Playlist[]> {
+        const { limit, offset } = paginationQuery;
         return this.playlistService.getUserPlaylists(user);
     }
 
