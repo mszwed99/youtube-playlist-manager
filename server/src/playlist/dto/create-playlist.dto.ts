@@ -1,9 +1,10 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 
 export class CreatePlaylistDto {
-    @IsNotEmpty()
-    name: string;
 
+    @IsString()
     @IsNotEmpty()
-    isPublic: boolean;
+    readonly name: string;
+
+    readonly isPublic: boolean;
 }

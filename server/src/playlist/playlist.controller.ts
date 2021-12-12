@@ -4,6 +4,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { User } from 'src/auth/user.entity';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
+import { UpdatePlaylistDto } from './dto/update-playlist.dto';
 import { Playlist, GROUP_ALL_PLAYLISTS, GROUP_PLAYLIST, } from './playlist.entity';
 import { PlaylistService } from './playlist.service';
 
@@ -91,13 +92,16 @@ export class PlaylistController {
         return this.playlistService.unfollowPlaylist(id, user);
     }
 
-    @Patch('edit/:id')
-    editPlaylidt(
+    @Patch(':id')
+    @SerializeOptions({
+        groups: [GROUP_PLAYLIST, GROUP_ALL_PLAYLISTS],
+      })
+    editPlaylist(
         @Param('id', ParseIntPipe) id: number,
         @GetUser() user: User,
-        @Body(ValidationPipe) createPlaylistDto: CreatePlaylistDto
+        @Body(ValidationPipe)  updatePlaylistDto:  UpdatePlaylistDto
     ): Promise<Playlist> {
-        return this.playlistService.editPlaylist(id, user, createPlaylistDto);
+        return this.playlistService.editPlaylist(id, user,  updatePlaylistDto);
     }
 
     @Delete('delete/:id')

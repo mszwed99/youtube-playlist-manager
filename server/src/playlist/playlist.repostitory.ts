@@ -5,6 +5,7 @@ import { CreatePlaylistDto } from "./dto/create-playlist.dto";
 import { Playlist } from "./playlist.entity";
 import { followValidation, filterFollow } from "./follow-validation";
 import { Video } from "src/video/video.entity";
+import { UpdatePlaylistDto } from "./dto/update-playlist.dto";
 
 @EntityRepository(Playlist)
 export class PlaylistRepository extends Repository<Playlist> {
@@ -152,7 +153,7 @@ export class PlaylistRepository extends Repository<Playlist> {
     }
 
 
-    async editPlaylist(id: number, user: User, createPlaylistDto: CreatePlaylistDto): Promise<Playlist> {
+    async editPlaylist(id: number, user: User,  updatePlaylistDto:  UpdatePlaylistDto): Promise<Playlist> {
         const playlist = await this.findOne({id})
 
         if(!playlist) {
@@ -162,9 +163,10 @@ export class PlaylistRepository extends Repository<Playlist> {
         if(playlist.owner.id !== user.id) {
             throw new NotFoundException('Not found')
         }
+        
+        playlist.name =  updatePlaylistDto.name;
+        playlist.public =  updatePlaylistDto.isPublic;
 
-        playlist.name = createPlaylistDto.name;
-        playlist.public = createPlaylistDto.isPublic;
 
         await playlist.save()
         return playlist
