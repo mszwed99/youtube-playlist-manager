@@ -138,6 +138,7 @@ export class PlaylistRepository extends Repository<Playlist> {
         playlist.name = name;
         playlist.public = isPublic;
         playlist.owner = user;
+        // playlist.added_by = user
 
         await playlist.save();
         return playlist;

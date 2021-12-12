@@ -4,7 +4,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { User } from 'src/auth/user.entity';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
-import { Playlist,GROUP_ALL_USERS, GROUP_USER, } from './playlist.entity';
+import { Playlist, GROUP_ALL_PLAYLISTS, GROUP_PLAYLIST, } from './playlist.entity';
 import { PlaylistService } from './playlist.service';
 
 @UseGuards(AuthGuard())
@@ -12,13 +12,13 @@ import { PlaylistService } from './playlist.service';
 @UseInterceptors(ClassSerializerInterceptor)
 export class PlaylistController {
     constructor(
-        private playlistService: PlaylistService
+        private readonly playlistService: PlaylistService
     ) {}
 
 
     @Get('info/:id')
     @SerializeOptions({
-        groups: [GROUP_USER],
+        groups: [GROUP_PLAYLIST],
       })
     getPlaylistInfo(
         @GetUser() user: User,
@@ -31,7 +31,7 @@ export class PlaylistController {
 
     @Get()
     @SerializeOptions({
-        groups: [GROUP_ALL_USERS],
+        groups: [GROUP_ALL_PLAYLISTS],
       })
     async getUserPlaylists(
         @GetUser() user: User,
@@ -40,6 +40,9 @@ export class PlaylistController {
     }
 
     @Get('followed')
+    @SerializeOptions({
+        groups: [GROUP_ALL_PLAYLISTS],
+      })
     getFollowedPlaylists(
         @GetUser() user: User
     ): Promise<Playlist[]> {
@@ -47,6 +50,9 @@ export class PlaylistController {
     }
 
     @Get('public')
+    @SerializeOptions({
+        groups: [GROUP_ALL_PLAYLISTS],
+      })
     getPublicPlaylists(
         @GetUser() user: User,
     ): Promise<Playlist[]> {    
@@ -55,6 +61,9 @@ export class PlaylistController {
 
 
     @Post()
+    @SerializeOptions({
+        groups: [GROUP_ALL_PLAYLISTS,GROUP_PLAYLIST],
+      })
     createPlaylist(
         @GetUser() user: User,
         @Body(ValidationPipe) createPlaylistDto: CreatePlaylistDto,
@@ -63,6 +72,9 @@ export class PlaylistController {
     }
 
     @Post('follow/:id')
+    @SerializeOptions({
+        groups: [GROUP_PLAYLIST],
+      })
     followPlaylist(
         @Param('id', ParseIntPipe) id: number,
         @GetUser() user: User,
