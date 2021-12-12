@@ -1,5 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards, UsePipes,
-     ValidationPipe, ClassSerializerInterceptor,SerializeOptions,UseInterceptors, Query} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards, UsePipes, ClassSerializerInterceptor,SerializeOptions,UseInterceptors, Query} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { User } from 'src/auth/user.entity';
@@ -68,7 +67,7 @@ export class PlaylistController {
       })
     createPlaylist(
         @GetUser() user: User,
-        @Body(ValidationPipe) createPlaylistDto: CreatePlaylistDto,
+        @Body() createPlaylistDto: CreatePlaylistDto,
     ): Promise<Playlist> {
         return this.playlistService.createPlaylist(user, createPlaylistDto);
     }
@@ -99,7 +98,7 @@ export class PlaylistController {
     editPlaylist(
         @Param('id', ParseIntPipe) id: number,
         @GetUser() user: User,
-        @Body(ValidationPipe)  updatePlaylistDto:  UpdatePlaylistDto
+        @Body()  updatePlaylistDto:  UpdatePlaylistDto
     ): Promise<Playlist> {
         return this.playlistService.editPlaylist(id, user,  updatePlaylistDto);
     }

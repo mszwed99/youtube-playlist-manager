@@ -163,10 +163,9 @@ export class PlaylistRepository extends Repository<Playlist> {
         if(playlist.owner.id !== user.id) {
             throw new NotFoundException('Not found')
         }
-        
+
         playlist.name =  updatePlaylistDto.name;
         playlist.public =  updatePlaylistDto.isPublic;
-
 
         await playlist.save()
         return playlist
