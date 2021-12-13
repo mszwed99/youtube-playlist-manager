@@ -20,11 +20,11 @@ export class PlaylistController {
     @SerializeOptions({
         groups: [GROUP_PLAYLIST],
       })
-    getPlaylistInfo(
-        @GetUser() user: User,
+    findOne(
+        // @GetUser() user: User
         @Param('id', ParseIntPipe) id: number
     ): Promise<Playlist> {
-        return this.playlistService.getPlaylistInfo(id, user);
+        return this.playlistService.findOne(id);
 
     }    
   
@@ -33,11 +33,11 @@ export class PlaylistController {
     @SerializeOptions({
         groups: [GROUP_ALL_PLAYLISTS],
       })
-    async getUserPlaylists(@Query() paginationQuery,
+    async getPlaylists(@Query() paginationQuery,
         @GetUser() user: User,
     ): Promise<Playlist[]> {
         const { limit, offset } = paginationQuery;
-        return this.playlistService.getUserPlaylists(user);
+        return this.playlistService.findAll();
     }
 
     @Get('followed')
@@ -65,51 +65,53 @@ export class PlaylistController {
     @SerializeOptions({
         groups: [GROUP_ALL_PLAYLISTS,GROUP_PLAYLIST],
       })
-    createPlaylist(
-        @GetUser() user: User,
+    create(
         @Body() createPlaylistDto: CreatePlaylistDto,
     ): Promise<Playlist> {
-        return this.playlistService.createPlaylist(user, createPlaylistDto);
+        console.log(createPlaylistDto)
+
+        const user1 = User.getId;
+        return this.playlistService.create(createPlaylistDto);
     }
 
-    @Post('follow/:id')
-    @SerializeOptions({
-        groups: [GROUP_PLAYLIST],
-      })
-    followPlaylist(
-        @Param('id', ParseIntPipe) id: number,
-        @GetUser() user: User,
-    ): Promise<Playlist> {
-        return this.playlistService.followPlaylist(id, user);
-    }
+    // @Post('follow/:id')
+    // @SerializeOptions({
+    //     groups: [GROUP_PLAYLIST],
+    //   })
+    // followPlaylist(
+    //     @Param('id', ParseIntPipe) id: number,
+    //     @GetUser() user: User,
+    // ): Promise<Playlist> {
+    //     return this.playlistService.followPlaylist(id, user);
+    // }
 
-    @Post('unfollow/:id')
-    unfollowPlaylist(
-        @Param('id', ParseIntPipe) id: number,
-        @GetUser() user: User,
-    ): Promise<Playlist> {
-        return this.playlistService.unfollowPlaylist(id, user);
-    }
+    // @Post('unfollow/:id')
+    // unfollowPlaylist(
+    //     @Param('id', ParseIntPipe) id: number,
+    //     @GetUser() user: User,
+    // ): Promise<Playlist> {
+    //     return this.playlistService.unfollowPlaylist(id, user);
+    // }
 
-    @Patch(':id')
-    @SerializeOptions({
-        groups: [GROUP_PLAYLIST, GROUP_ALL_PLAYLISTS],
-      })
-    editPlaylist(
-        @Param('id', ParseIntPipe) id: number,
-        @GetUser() user: User,
-        @Body()  updatePlaylistDto:  UpdatePlaylistDto
-    ): Promise<Playlist> {
-        return this.playlistService.editPlaylist(id, user,  updatePlaylistDto);
-    }
+    // @Patch(':id')
+    // @SerializeOptions({
+    //     groups: [GROUP_PLAYLIST, GROUP_ALL_PLAYLISTS],
+    //   })
+    // editPlaylist(
+    //     @Param('id', ParseIntPipe) id: number,
+    //     @GetUser() user: User,
+    //     @Body()  updatePlaylistDto:  UpdatePlaylistDto
+    // ): Promise<Playlist> {
+    //     return this.playlistService.editPlaylist(id, user,  updatePlaylistDto);
+    // }
 
-    @Delete('delete/:id')
-    deletePlaylist(
-        @Param('id', ParseIntPipe) id: number,
-        @GetUser() user: User
-    ): Promise<void> {
-        return this.playlistService.deletePlaylist(id, user);
-    }
+    // @Delete('delete/:id')
+    // deletePlaylist(
+    //     @Param('id', ParseIntPipe) id: number,
+    //     @GetUser() user: User
+    // ): Promise<void> {
+    //     return this.playlistService.deletePlaylist(id, user);
+    // }
 
 
    

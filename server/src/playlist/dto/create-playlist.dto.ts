@@ -1,4 +1,4 @@
-import { isBoolean, IsBoolean, IsNotEmpty, IsString, MaxLength } from "class-validator";
+import { IsBoolean, IsNotEmpty, IsString, MaxLength } from "class-validator";
 
 export class CreatePlaylistDto {
 
@@ -9,5 +9,11 @@ export class CreatePlaylistDto {
     readonly name: string;
     
     @IsBoolean()
-    readonly isPublic: boolean = false;
+    readonly personal: boolean = false;
+    
+    // @IsString()
+    // readonly added_by: string
+
+    // @IsBoolean()
+    // readonly favourite: boolean = false;
 }

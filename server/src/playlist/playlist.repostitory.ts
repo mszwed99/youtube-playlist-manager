@@ -10,179 +10,182 @@ import { UpdatePlaylistDto } from "./dto/update-playlist.dto";
 @EntityRepository(Playlist)
 export class PlaylistRepository extends Repository<Playlist> {
 
+}
 
+//     async addVideoToPlaylist(user: User, id: number, video: Video): Promise<Playlist> {
+//         const playlist = await this.findOne({id}, {
+//             relations:['videos']
+//         })
+//         const videoExist: Video = playlist.videos.find(v => v.videoId === video.videoId)
+//         if(!videoExist) {
+//             playlist.videos = [...playlist.videos, video]
+//             await playlist.save()
+//             return playlist;
+//         }
+//         return playlist;
+//     }
 
-    async addVideoToPlaylist(user: User, id: number, video: Video): Promise<Playlist> {
-        const playlist = await this.findOne({id}, {
-            relations:['videos']
-        })
-        const videoExist: Video = playlist.videos.find(v => v.videoId === video.videoId)
-        if(!videoExist) {
-            playlist.videos = [...playlist.videos, video]
-            await playlist.save()
-            return playlist;
-        }
-        return playlist;
-    }
+//     async removeVideoFromPlaylist(user: User, idPlaylist: number, idVideo: string): Promise<void> {
+//         console.log(user.id)
+//         const playlist = await this.findOne({id: idPlaylist, owner: user}, {
+//             relations:['videos']
+//         })
+//         if(!playlist) {
+//             throw new NotFoundException(`Playlist with id ${idPlaylist} not found`);
+//         }
 
-    async removeVideoFromPlaylist(user: User, idPlaylist: number, idVideo: string): Promise<void> {
-        console.log(user.id)
-        const playlist = await this.findOne({id: idPlaylist, owner: user}, {
-            relations:['videos']
-        })
-        if(!playlist) {
-            throw new NotFoundException(`Playlist with id ${idPlaylist} not found`);
-        }
+//         const videoExist  = playlist.videos.filter(v => v.videoId !== idVideo)
 
-        const videoExist  = playlist.videos.filter(v => v.videoId !== idVideo)
+//         // if(!videoExist) {
+//         //     throw new NotFoundException(`Video with id ${idVideo} not found`);
+//         //     // playlist.videos = [...playlist.videos, video]
+//         //     // await playlist.save()
+//         //     // return playlist;
+//         // }
 
-        // if(!videoExist) {
-        //     throw new NotFoundException(`Video with id ${idVideo} not found`);
-        //     // playlist.videos = [...playlist.videos, video]
-        //     // await playlist.save()
-        //     // return playlist;
-        // }
+//         console.log(videoExist)
+//     }
 
-        console.log(videoExist)
-    }
+//     async getPlaylistInfo(id: number, user: User): Promise<Playlist> {
+//         const playlist: Playlist = await this.findOne({id}, {
+//             relations:['videos', 'followers']
+//         })
 
-    async getPlaylistInfo(id: number, user: User): Promise<Playlist> {
-        const playlist: Playlist = await this.findOne({id}, {
-            relations:['videos', 'followers']
-        })
+//         const isFollowed = await playlist.checkIfFollowed(user);
+//         playlist.isFollowed = isFollowed;
 
-        const isFollowed = await playlist.checkIfFollowed(user);
-        playlist.isFollowed = isFollowed;
-
-        if(playlist?.public) {
+//         if(playlist?.public) {
             
-            return playlist;
-        }
-        if(playlist?.owner.id === user.id){
-            return playlist;
-        }
+//             return playlist;
+//         }
+//         if(playlist?.owner.id === user.id){
+//             return playlist;
+//         }
         
 
-        throw new NotFoundException(`Playlist with id ${id} not found`);
-    }
+//         throw new NotFoundException(`Playlist with id ${id} not found`);
+//     }
 
+//     // async getPlaylists(user: User): Promise<Playlist[]>{ 
 
+//     //     return playlists;
+//     // }
 
-    async getUserPlaylists(user: User): Promise<Playlist[]> {
-        let playlists = await this.find({ where: {
-            owner: user
-        },
-            relations:['followers', 'videos']
-        });
+//     async getUserPlaylists(user: User): Promise<Playlist[]> {
+//         let playlists = await this.find({ where: {
+//             added_by: user.id
+//         },
+//             relations:['followers', 'videos', 'added_by']
+//         });
 
-        playlists = await filterFollow(playlists, user)
+//         playlists = await filterFollow(playlists, user)
 
-        return playlists;
-    }
+//         return playlists;
+//     }
 
-    async getPublicPlaylists(user: User): Promise<Playlist[]> {
-        let playlists = await this.find({ where: {
-            public: true
-        }, 
-            relations: ["followers"]});
+//     async getPublicPlaylists(user: User): Promise<Playlist[]> {
+//         let playlists = await this.find({ where: {
+//             public: true
+//         }, 
+//             relations: ["followers"]});
 
-        playlists = await filterFollow(playlists, user)
-        return playlists;
-    }
+//         playlists = await filterFollow(playlists, user)
+//         return playlists;
+//     }
 
-    async followPlaylist(id: number, user: User): Promise<Playlist> {
-        const playlist = await this.findOne({id}, {
-            relations:['followers']
-        })
+//     async followPlaylist(id: number, user: User): Promise<Playlist> {
+//         const playlist = await this.findOne({id}, {
+//             relations:['followers']
+//         })
         
-        await followValidation(playlist, user)
+//         await followValidation(playlist, user)
 
-        if(await playlist.checkIfFollowed(user)) {
-            throw new ConflictException('You already follow this playlist');
-        }
+//         if(await playlist.checkIfFollowed(user)) {
+//             throw new ConflictException('You already follow this playlist');
+//         }
 
-        playlist.followers = [...playlist.followers, user];
-        await playlist.save();
+//         playlist.followers = [...playlist.followers, user];
+//         await playlist.save();
 
-        const isFollowed = await playlist.checkIfFollowed(user);
-        playlist.isFollowed = isFollowed;
-        return playlist;
-    }
+//         const isFollowed = await playlist.checkIfFollowed(user);
+//         playlist.isFollowed = isFollowed;
+//         return playlist;
+//     }
     
-    async unfollowPlaylist(id: number, user: User): Promise<Playlist> {
-        const playlist = await this.findOne({id}, {
-            relations:['followers']
-        })
+//     async unfollowPlaylist(id: number, user: User): Promise<Playlist> {
+//         const playlist = await this.findOne({id}, {
+//             relations:['followers']
+//         })
 
-        await followValidation(playlist, user)
+//         await followValidation(playlist, user)
 
-        if(!await playlist.checkIfFollowed(user)) {
-            throw new NotFoundException('You do not follow this playlist');
-        }
+//         if(!await playlist.checkIfFollowed(user)) {
+//             throw new NotFoundException('You do not follow this playlist');
+//         }
 
-        playlist.followers = playlist.followers.filter(e => e.id !== user.id)
-        await playlist.save();
+//         playlist.followers = playlist.followers.filter(e => e.id !== user.id)
+//         await playlist.save();
 
-        const isFollowed = await playlist.checkIfFollowed(user);
-        playlist.isFollowed = isFollowed;
-        return playlist;
-    } 
+//         const isFollowed = await playlist.checkIfFollowed(user);
+//         playlist.isFollowed = isFollowed;
+//         return playlist;
+//     } 
 
 
-    async createPlaylist(
-        user: User, 
-        createPlaylistDto: CreatePlaylistDto
-    ): Promise<Playlist> {
-        const { name, isPublic } = createPlaylistDto;
-        const playlist = await this.create();
+//     async createPlaylist(
+//         user: User, 
+//         createPlaylistDto: CreatePlaylistDto
+//     ): Promise<Playlist> {
+//         const { name, isPublic } = createPlaylistDto;
+//         const playlist = await this.create();
     
-        playlist.name = name;
-        playlist.public = isPublic;
-        playlist.owner = user;
-        // playlist.added_by = user
+//         playlist.name = name;
+//         playlist.public = isPublic;
+//         playlist.owner = user;
+//         playlist.added_by = user
 
-        await playlist.save();
-        return playlist;
-    }
+//         await playlist.save();
+//         return playlist;
+//     }
 
-    async deletePlaylist(id: number, user: User): Promise<void> {
-        const result = await this.delete({ id, owner: user})
-        if(result.affected === 0) {
-            throw new NotFoundException(`Playlist with id ${id} not found`);
-        }
-    }
+//     async deletePlaylist(id: number, user: User): Promise<void> {
+//         const result = await this.delete({ id, owner: user})
+//         if(result.affected === 0) {
+//             throw new NotFoundException(`Playlist with id ${id} not found`);
+//         }
+//     }
 
 
-    async editPlaylist(id: number, user: User,  updatePlaylistDto:  UpdatePlaylistDto): Promise<Playlist> {
-        const playlist = await this.findOne({id})
+//     async editPlaylist(id: number, user: User,  updatePlaylistDto:  UpdatePlaylistDto): Promise<Playlist> {
+//         const playlist = await this.findOne({id})
 
-        if(!playlist) {
-            throw new NotFoundException('Not found')
-        }
+//         if(!playlist) {
+//             throw new NotFoundException('Not found')
+//         }
 
-        if(playlist.owner.id !== user.id) {
-            throw new NotFoundException('Not found')
-        }
+//         if(playlist.owner.id !== user.id) {
+//             throw new NotFoundException('Not found')
+//         }
 
-        playlist.name =  updatePlaylistDto.name;
-        playlist.public =  updatePlaylistDto.isPublic;
+//         playlist.name =  updatePlaylistDto.name;
+//         playlist.public =  updatePlaylistDto.isPublic;
 
-        await playlist.save()
-        return playlist
-    }
+//         await playlist.save()
+//         return playlist
+//     }
 
   
 
 
 
-    // async filterFollow(playlists: Playlist[], user: User): Promise<Playlist[]> {
-    //     if(!playlists)
-    //         return playlists
+//     // async filterFollow(playlists: Playlist[], user: User): Promise<Playlist[]> {
+//     //     if(!playlists)
+//     //         return playlists
 
-    //     for (let playlist of playlists) {
-    //         playlist.isFollowed = await playlist.checkIfFollowed(user);
-    //     }
+//     //     for (let playlist of playlists) {
+//     //         playlist.isFollowed = await playlist.checkIfFollowed(user);
+//     //     }
 
-    //     return playlists
-    // }
-}
+//     //     return playlists
+//     // }
+// }

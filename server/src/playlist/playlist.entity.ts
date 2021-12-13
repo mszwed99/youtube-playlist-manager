@@ -1,10 +1,11 @@
 import { User } from "src/auth/user.entity";
-import { BaseEntity, Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
 import { Video } from "src/video/video.entity"
 import { Exclude, Expose, Transform } from 'class-transformer';
+import { userInfo } from "os";
 
-export const GROUP_PLAYLIST = 'group_user_details';
-export const GROUP_ALL_PLAYLISTS = 'group_all_users';
+export const GROUP_PLAYLIST = 'group_playlist_details';
+export const GROUP_ALL_PLAYLISTS = 'group_all_playlists';
 
 
 
@@ -20,14 +21,18 @@ export class Playlist extends BaseEntity {
 
     @Column()
     @Expose({ groups: [GROUP_PLAYLIST,GROUP_ALL_PLAYLISTS] })
-    public: boolean;
+    personal: boolean;
     
-    
-    // @ManyToOne(() => User, user => user)
-    // @JoinColumn()
-    // @Expose({ groups: [GROUP_PLAYLIST,GROUP_ALL_PLAYLISTS], toPlainOnly: true }, )
+    @JoinColumn()
+    @OneToOne(() => User, (user) => user.id, { eager: true })
+    @Expose({ groups: [GROUP_PLAYLIST,GROUP_ALL_PLAYLISTS], toPlainOnly: true }, )
     // @Transform(({ value }) => value.id)
-    // added_by: User;
+    added_by: User;
+
+    // @Column()
+    // @Expose({ groups: [GROUP_PLAYLIST,GROUP_ALL_PLAYLISTS] })
+    // favourite: boolean;
+    
 
     @Exclude({ toPlainOnly: true })
     @ManyToOne(() => User, owner => owner.playlists, { eager: true })
@@ -51,7 +56,7 @@ export class Playlist extends BaseEntity {
     isFollowed?: boolean;
 
     async checkIfPublic(): Promise<boolean> {
-        return this.public;
+        return this.personal;
     }
 
     async checkIfFollowed(user: User): Promise<boolean> {
