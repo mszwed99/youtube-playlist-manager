@@ -10,6 +10,8 @@ export class AuthService {
     constructor(
         @InjectRepository(UserRepository)
         private userRepository: UserRepository,
+        
+
         private jwtService: JwtService
     ) {}
 
@@ -19,6 +21,7 @@ export class AuthService {
 
     async signIn(authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }> {
         const username = await this.userRepository.validateUserPassword(authCredentialsDto);
+        
         if(!username) {
             throw new UnauthorizedException('Invalid credentials');
         }

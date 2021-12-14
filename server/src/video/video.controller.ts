@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, ParseIntPipe, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Param, ParseIntPipe, Post, UseGuards, UsePipes} from '@nestjs/common';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { AddVideoDto } from './dto/add-video.dto';
 import { Video } from './video.entity';
@@ -19,7 +19,7 @@ export class VideoController {
     addVideoToPlaylist(
         @GetUser() user: User,
         @Param('id', ParseIntPipe) id: number,
-        @Body(ValidationPipe) addVideoDto: AddVideoDto,
+        @Body() addVideoDto: AddVideoDto,
     ): Promise<any> {
         return this.videoService.addVideoToPlaylist(user, id, addVideoDto);
         //return this.videoService.addVideo(addVideoDto);

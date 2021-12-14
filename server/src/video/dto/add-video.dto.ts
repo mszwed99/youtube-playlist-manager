@@ -14,8 +14,7 @@ export class AddVideoDto {
     @IsNotEmpty()
     description: string;
 
-    @IsNotEmpty()
-    publishTime: string;
+    publishTime: Date;
 
     @IsNotEmpty()
     thumbnail: string;

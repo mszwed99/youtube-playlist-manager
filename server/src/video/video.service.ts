@@ -1,4 +1,4 @@
-import { ConsoleLogger, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/user.entity';
 import { Playlist } from 'src/playlist/playlist.entity';
@@ -24,7 +24,6 @@ export class VideoService {
             title, 
             channelTitle, 
             description, 
-            publishTime, 
             thumbnail } = addVideoDto;
 
         const video = await this.videoRepository.create({
@@ -32,7 +31,6 @@ export class VideoService {
             title, 
             channelTitle, 
             description, 
-            publishTime, 
             thumbnail
         });
 

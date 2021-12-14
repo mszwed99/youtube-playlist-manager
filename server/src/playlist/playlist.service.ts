@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
 import { Playlist } from './playlist.entity';
 import { PlaylistRepository } from './playlist.repostitory';
 import { User } from 'src/auth/user.entity';
 import { UserRepository } from 'src/auth/user.repository';
+import { UpdatePlaylistDto } from './dto/update-playlist.dto';
 
 @Injectable()
 export class PlaylistService {
@@ -18,7 +19,11 @@ export class PlaylistService {
 
 
     async getPlaylistInfo(id: number, user: User): Promise<Playlist> {
-        return this.playlistRepository.getPlaylistInfo(id, user);
+        const playlist =  this.playlistRepository.getPlaylistInfo(id, user);
+        if (!playlist){
+            throw new NotFoundException(`Playlist with id ${id} not found`);
+        }
+        return playlist;
     }
 
 
@@ -35,8 +40,8 @@ export class PlaylistService {
     }
 
 
-    async getPublicPlaylists(): Promise<Playlist[]> {
-        return this.playlistRepository.getPublicPlaylists();
+    async getPublicPlaylists(user: User): Promise<Playlist[]> {
+        return this.playlistRepository.getPublicPlaylists(user);
     }
 
     async createPlaylist(
@@ -46,8 +51,9 @@ export class PlaylistService {
         return this.playlistRepository.createPlaylist(user, createPlaylistDto);
     }
  
-    async editPlaylist(id: number, user: User, createPlaylistDto: CreatePlaylistDto): Promise<Playlist> {
-        return this.playlistRepository.editPlaylist(id, user, createPlaylistDto);
+    async editPlaylist(id: number, user: User,  updatePlaylistDto:  UpdatePlaylistDto): Promise<Playlist> {
+        return this.playlistRepository.editPlaylist(id, user,  updatePlaylistDto);
+
     }
 
     async deletePlaylist(id: number, user: User): Promise<void> {

@@ -1,19 +1,24 @@
 import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { Playlist } from "src/playlist/playlist.entity";
+import { Exclude } from 'class-transformer';
+
 
 @Entity()
 @Unique(['username'])
 export class User extends BaseEntity {
+    @OneToMany(() => Playlist, playlist => playlist.id)
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
     username: string;
 
+    @Exclude({ toPlainOnly: true })
     @Column()
     password: string;
 
+    @Exclude({ toPlainOnly: true })
     @Column()
     salt: string;
 

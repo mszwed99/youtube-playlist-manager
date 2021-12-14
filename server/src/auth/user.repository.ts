@@ -4,7 +4,7 @@ import { AuthCredentialsDto } from "./dto/auth-credentials.dto";
 import { User } from "./user.entity";
 import * as bcrypt from 'bcrypt';
 import { Playlist } from "src/playlist/playlist.entity";
-
+import { filterFollow } from "src/playlist/follow-validation";
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
 
@@ -21,8 +21,12 @@ export class UserRepository extends Repository<User> {
             return []
         }
 
-        const playlists = userInfo.followed
-        playlists.filter(p => p.public === true)
+        let playlists: Playlist[] = userInfo.followed
+        
+        for (let playlist of playlists) {
+            playlist.isFollowed = true
+        }
+
         return playlists;
     }
 
