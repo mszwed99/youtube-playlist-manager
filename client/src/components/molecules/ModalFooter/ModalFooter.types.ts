@@ -3,4 +3,5 @@ export interface ModalFooterPropsI {
   cta1: () => void;
   cta2Label: string;
   cta2: () => void;
+  shouldCta1BeDisabled?: boolean;
 }
