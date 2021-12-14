@@ -7,7 +7,7 @@ import { Exclude } from 'class-transformer';
 @Entity()
 @Unique(['username'])
 export class User extends BaseEntity {
-    @OneToMany(type => Playlist, playlist => playlist.added_by)
+    @OneToMany(() => Playlist, playlist => playlist.added_by)
     @PrimaryGeneratedColumn()
     id: number;
 

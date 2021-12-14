@@ -11,30 +11,65 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class PlaylistService {
     constructor(
-        // @InjectRepository(PlaylistRepository)
-        // private playlistRepository: PlaylistRepository,
         @InjectRepository(Playlist)
         private readonly playlistRepository: Repository<Playlist>,
         @InjectRepository(UserRepository)
         private userRepository: UserRepository
-    ) {}
+    ) { }
 
+
+    //TODO: add query string ?user=id
+    async findAll(publicQuery): Promise<Playlist[]> {
+        return this.playlistRepository.find({
+            relations: ['added_by'], where: {
+                public: publicQuery,
+
+            }
+        });
+    }
 
     async findOne(id: number): Promise<Playlist> {
-        const playlist = await this.playlistRepository.findOne({id}, {
-                        relations:['videos', 'followers']
-                    });
+        const playlist = await this.playlistRepository.findOne({ id }, {
+            relations: ['videos', 'followers']
+        });
 
-        if (!playlist){
+        if (!playlist) {
             throw new NotFoundException(`Playlist with id ${id} not found`);
         }
         return playlist;
     }
 
-    //TODO: add query string ?user=id
-    async findAll(): Promise<Playlist[]> {
-        return this.playlistRepository.find();
+    async create(
+        user: User,
+        createPlaylistDto: CreatePlaylistDto,
+    ): Promise<Playlist> {
+        const added_by = user;
+        const playlist = this.playlistRepository.create({
+            ...createPlaylistDto,
+            added_by
+        })
+        return this.playlistRepository.save(playlist)
     }
+
+    async update(
+        id: number, 
+        // user: User, 
+        updatePlaylistDto: UpdatePlaylistDto
+        ): Promise<Playlist> {
+            let playlist = await this.findOne(id)
+
+            // const added_by = user;
+            playlist = await this.playlistRepository.preload({
+                id: +id,
+                ...updatePlaylistDto,
+            
+            })
+            console.log(playlist);
+        return this.playlistRepository.save(playlist);
+
+
+        }
+
 
 
     // async getUserPlaylists(user: User): Promise<Playlist[]> {
@@ -43,43 +78,33 @@ export class PlaylistService {
 
 
     // Dopracować return z playlistami
-    async getFollowedPlaylists(user: User): Promise<Playlist[]> {
-        return this.userRepository.getFollowedPlaylists(user)
-        //return this.playlistRepository.getFollowedPlaylists(user);
+    // async getFollowedPlaylists(user: User): Promise < Playlist[] > {
+    //         return this.userRepository.getFollowedPlaylists(user)
+    //         //return this.playlistRepository.getFollowedPlaylists(user);
+    //     }
+
+
+
+
+
+        //     }
+
+        //     async deletePlaylist(id: number, user: User): Promise<void> {
+        //         return this.playlistRepository.deletePlaylist(id, user);
+        //     }
+
+        //     async followPlaylist(id: number, user: User): Promise<Playlist> {
+        //         return this.playlistRepository.followPlaylist(id, user);
+        //     }
+
+        //     async unfollowPlaylist(id: number, user: User): Promise<Playlist> {
+        //         return this.playlistRepository.unfollowPlaylist(id, user);
+        //     }
     }
 
 
-    async getPublicPlaylists(user: User): Promise<Playlist[]> {
-        const playlist  = this.playlistRepository.find({relations: ['added_by']})
-        // return this.playlistRepository.getPublicPlaylists(user);
-        return playlist;
-    }
-
-    async create(
-        // user: User, 
-        createPlaylistDto: CreatePlaylistDto,  
-    ): Promise<Playlist> {
-        // return this.playlistRepository(createPlaylistDto);
-        const playlist =  this.playlistRepository.create(createPlaylistDto);
-        // playlist.added_by = user;
-        console.log(playlist)
-        return this.playlistRepository.save(playlist)
-    }
- 
-//     async editPlaylist(id: number, user: User,  updatePlaylistDto:  UpdatePlaylistDto): Promise<Playlist> {
-//         return this.playlistRepository.editPlaylist(id, user,  updatePlaylistDto);
-
-//     }
-
-//     async deletePlaylist(id: number, user: User): Promise<void> {
-//         return this.playlistRepository.deletePlaylist(id, user);
-//     }
-
-//     async followPlaylist(id: number, user: User): Promise<Playlist> {
-//         return this.playlistRepository.followPlaylist(id, user);
-//     }
-
-//     async unfollowPlaylist(id: number, user: User): Promise<Playlist> {
-//         return this.playlistRepository.unfollowPlaylist(id, user);
-//     }
-}
+    // async getPublicPlaylists(user: User): Promise<Playlist[]> {
+    //     const playlist = this.playlistRepository.find({ relations: ['added_by'] })
+    //     // return this.playlistRepository.getPublicPlaylists(user);
+    //     return playlist;
+    // }

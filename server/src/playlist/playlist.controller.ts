@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards, UsePipes, ClassSerializerInterceptor,SerializeOptions,UseInterceptors, Query} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards,
+     UsePipes, ClassSerializerInterceptor,SerializeOptions,UseInterceptors, Query, ParseBoolPipe} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { User } from 'src/auth/user.entity';
@@ -34,32 +35,13 @@ export class PlaylistController {
         groups: [GROUP_ALL_PLAYLISTS],
       })
     async getPlaylists(@Query() paginationQuery,
+        @Query('public', ParseBoolPipe) publicQuery: boolean,
         @GetUser() user: User,
     ): Promise<Playlist[]> {
-        const { limit, offset } = paginationQuery;
-        return this.playlistService.findAll();
-    }
+        // const { limit, offset } = paginationQuery;
 
-    @Get('followed')
-    @SerializeOptions({
-        groups: [GROUP_ALL_PLAYLISTS],
-      })
-    getFollowedPlaylists(
-        @GetUser() user: User
-    ): Promise<Playlist[]> {
-        return this.playlistService.getFollowedPlaylists(user);
+        return this.playlistService.findAll(publicQuery);
     }
-
-    @Get('public')
-    @SerializeOptions({
-        groups: [GROUP_ALL_PLAYLISTS],
-      })
-    getPublicPlaylists(
-        @GetUser() user: User,
-    ): Promise<Playlist[]> {    
-        return this.playlistService.getPublicPlaylists(user);
-    }
-
 
     @Post()
     @SerializeOptions({
@@ -67,12 +49,33 @@ export class PlaylistController {
       })
     create(
         @Body() createPlaylistDto: CreatePlaylistDto,
+        @GetUser() user: User,
     ): Promise<Playlist> {
-        console.log(createPlaylistDto)
-
-        const user1 = User.getId;
-        return this.playlistService.create(createPlaylistDto);
+        return this.playlistService.create(user, createPlaylistDto);
     }
+
+
+    // @Get('followed')
+    // @SerializeOptions({
+    //     groups: [GROUP_ALL_PLAYLISTS],
+    //   })
+    // getFollowedPlaylists(
+    //     @GetUser() user: User
+    // ): Promise<Playlist[]> {
+    //     return this.playlistService.getFollowedPlaylists(user);
+    // }
+
+    // @Get('public')
+    // @SerializeOptions({
+    //     groups: [GROUP_ALL_PLAYLISTS],
+    //   })
+    // getPublicPlaylists(
+    //     @GetUser() user: User,
+    // ): Promise<Playlist[]> {    
+    //     return this.playlistService.getPublicPlaylists(user);
+    // }
+
+
 
     // @Post('follow/:id')
     // @SerializeOptions({
@@ -93,17 +96,17 @@ export class PlaylistController {
     //     return this.playlistService.unfollowPlaylist(id, user);
     // }
 
-    // @Patch(':id')
-    // @SerializeOptions({
-    //     groups: [GROUP_PLAYLIST, GROUP_ALL_PLAYLISTS],
-    //   })
-    // editPlaylist(
-    //     @Param('id', ParseIntPipe) id: number,
-    //     @GetUser() user: User,
-    //     @Body()  updatePlaylistDto:  UpdatePlaylistDto
-    // ): Promise<Playlist> {
-    //     return this.playlistService.editPlaylist(id, user,  updatePlaylistDto);
-    // }
+    @Patch(':id')
+    @SerializeOptions({
+        groups: [GROUP_PLAYLIST, GROUP_ALL_PLAYLISTS],
+      })
+    update(
+        @Param('id', ParseIntPipe) id: number,
+        // @GetUser() user: User,
+        @Body()  updatePlaylistDto:  UpdatePlaylistDto
+    ): Promise<Playlist> {
+        return this.playlistService.update(id,updatePlaylistDto);
+    }
 
     // @Delete('delete/:id')
     // deletePlaylist(

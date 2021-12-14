@@ -21,12 +21,12 @@ export class Playlist extends BaseEntity {
 
     @Column()
     @Expose({ groups: [GROUP_PLAYLIST,GROUP_ALL_PLAYLISTS] })
-    personal: boolean;
+    public: boolean;
     
     @JoinColumn()
-    @OneToOne(() => User, (user) => user.id, { eager: true })
+    @ManyToOne(() => User, (user) => user.id, { onUpdate: 'CASCADE', onDelete: 'CASCADE', eager: true })
     @Expose({ groups: [GROUP_PLAYLIST,GROUP_ALL_PLAYLISTS], toPlainOnly: true }, )
-    // @Transform(({ value }) => value.id)
+    @Transform(({ value }) => value.id)
     added_by: User;
 
     // @Column()
@@ -56,7 +56,7 @@ export class Playlist extends BaseEntity {
     isFollowed?: boolean;
 
     async checkIfPublic(): Promise<boolean> {
-        return this.personal;
+        return this.public;
     }
 
     async checkIfFollowed(user: User): Promise<boolean> {

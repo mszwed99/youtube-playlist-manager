@@ -9,10 +9,10 @@ export class CreatePlaylistDto {
     readonly name: string;
     
     @IsBoolean()
-    readonly personal: boolean = false;
+    readonly public: boolean = false;
     
-    // @IsString()
-    // readonly added_by: string
+    
+    // readonly added_by: number
 
     // @IsBoolean()
     // readonly favourite: boolean = false;
