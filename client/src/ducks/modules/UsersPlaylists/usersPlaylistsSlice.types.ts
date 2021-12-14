@@ -1,13 +1,14 @@
 import { Status } from "ducks/types";
+import { VideoI } from "services/VideoService/VideoService.types";
 
 export interface UsersPlaylistsStateI {
-  playlists: Playlist[];
+  playlists: PlaylistI[];
   playlistsCallStatus: Status;
-  followedPlaylists: Playlist[];
+  followedPlaylists: PlaylistI[];
   followedPlaylistsCallStatus: Status;
 }
 
-export interface Playlist {
+export interface PlaylistI {
   id: number;
   name: string;
   public: boolean;
@@ -17,6 +18,7 @@ export interface Playlist {
     password: string;
     salt: string;
   }[];
+  videos: VideoI[];
   owner: {
     id: number;
     username: string;

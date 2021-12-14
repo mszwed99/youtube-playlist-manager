@@ -1,8 +1,8 @@
 import { Status } from "ducks/types";
-import { Playlist } from "../UsersPlaylists/usersPlaylistsSlice.types";
+import { PlaylistI } from "../UsersPlaylists/usersPlaylistsSlice.types";
 
 export interface PublicPlaylistsStateI {
-  publicPlaylists: Playlist[];
+  publicPlaylists: PlaylistI[];
   isLoading: boolean;
   publicPlaylistsCallStatus: Status;
 }
