@@ -8,8 +8,8 @@ export const Sidebar: React.FC = () => {
   const { isSidebarExpanded } = useContext(MainTemplateContext);
   return (
     <SidebarContainer isSidebarExpanded={isSidebarExpanded}>
-      <SidebarItem label="Home" icon={<FiHome />} onPressRedirect="/" isSidebarExpanded={isSidebarExpanded} />
-      <SidebarItem label="Public playlists" icon={<FiFilm />} onPressRedirect="/playlists" isSidebarExpanded={isSidebarExpanded} />
+      <SidebarItem label="Główna" icon={<FiHome />} onPressRedirect="/" isSidebarExpanded={isSidebarExpanded} />
+      <SidebarItem label="Publiczne playlisty" icon={<FiFilm />} onPressRedirect="/playlists" isSidebarExpanded={isSidebarExpanded} />
     </SidebarContainer>
   );
 };

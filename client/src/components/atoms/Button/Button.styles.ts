@@ -9,6 +9,7 @@ export const StyledButton = styled.button<{fullwidth: boolean, error: boolean, s
   border: none;
   font-weight: ${({ theme }) => theme.font.fontWeight.bold};
   font-size: ${({ theme }) => theme.font.fontSize.medium};
+  transition: background 0.4s ease;
 
   ${({ fullwidth }) => fullwidth && css`
     width: 100%;

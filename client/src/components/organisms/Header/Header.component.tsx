@@ -17,7 +17,10 @@ export const Header: React.FC = () => {
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.currentTarget.value);
 
-  const logout: () => void = () => dispatch(logOut());
+  const logout: () => void = () => {
+    dispatch(logOut());
+    history.push('/');
+  }
 
   const onEnterPress: (e: React.FormEvent<HTMLFormElement>) => void = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,7 +39,7 @@ export const Header: React.FC = () => {
     <HeaderContainer>
       <Hamburger isToggled={isSidebarExpanded} onPress={toggleSidebar} />
       <SearchContainer onSubmit={onEnterPress}>
-        <Input value={searchValue} name='Search' onChange={handleSearchInputChange} transparent placeholder="Search" />
+        <Input value={searchValue} name='Search' onChange={handleSearchInputChange} transparent placeholder="Szukaj" />
         <SearchButton onPress={onSearchPress} />
       </SearchContainer>
       <LogoutContainer onClick={logout}><FiLogOut /></LogoutContainer>
