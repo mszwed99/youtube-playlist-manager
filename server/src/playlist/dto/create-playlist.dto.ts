@@ -14,6 +14,6 @@ export class CreatePlaylistDto {
     
     // readonly added_by: number
 
-    // @IsBoolean()
-    // readonly favourite: boolean = false;
+    @IsBoolean()
+    readonly favourite: boolean = false;
 }

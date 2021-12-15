@@ -7,6 +7,7 @@ import { User } from 'src/auth/user.entity';
 import { UserRepository } from 'src/auth/user.repository';
 import { UpdatePlaylistDto } from './dto/update-playlist.dto';
 import { Repository } from 'typeorm';
+import { SearchPlaylistsDto } from './dto/search-playlists-dto';
 
 @Injectable()
 export class PlaylistService {
@@ -18,15 +19,19 @@ export class PlaylistService {
     ) { }
 
 
-    //TODO: add query string ?user=id
-    async findAll(publicQuery): Promise<Playlist[]> {
+      //TODO: add query string ?user=id
+      async findAll(searchPlaylistsDto: SearchPlaylistsDto): Promise<Playlist[]> {
+        const { _public, favourite} = searchPlaylistsDto;
+        // const [added_by]  user.id
+        // console.log(favourite)
+        console.log(searchPlaylistsDto)
         return this.playlistRepository.find({
-            relations: ['added_by'], where: {
-                public: publicQuery,
+            ...searchPlaylistsDto,
+            relations: ['added_by'],
 
-            }
-        });
-    }
+        })
+    };
+    
 
     async findOne(id: number): Promise<Playlist> {
         const playlist = await this.playlistRepository.findOne({ id }, {

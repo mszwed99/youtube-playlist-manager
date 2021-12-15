@@ -1,9 +1,11 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards,
      UsePipes, ClassSerializerInterceptor,SerializeOptions,UseInterceptors, Query, ParseBoolPipe} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { IsOptional } from 'class-validator';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { User } from 'src/auth/user.entity';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
+import { SearchPlaylistsDto } from './dto/search-playlists-dto';
 import { UpdatePlaylistDto } from './dto/update-playlist.dto';
 import { Playlist, GROUP_ALL_PLAYLISTS, GROUP_PLAYLIST, } from './playlist.entity';
 import { PlaylistService } from './playlist.service';
@@ -35,12 +37,11 @@ export class PlaylistController {
         groups: [GROUP_ALL_PLAYLISTS],
       })
     async getPlaylists(@Query() paginationQuery,
-        @Query('public', ParseBoolPipe) publicQuery: boolean,
-        @GetUser() user: User,
+        @Query() searchPlaylistsDto: SearchPlaylistsDto,
     ): Promise<Playlist[]> {
         // const { limit, offset } = paginationQuery;
 
-        return this.playlistService.findAll(publicQuery);
+        return this.playlistService.findAll(searchPlaylistsDto);
     }
 
     @Post()

@@ -22,9 +22,13 @@ export class Playlist extends BaseEntity {
     @Column()
     @Expose({ groups: [GROUP_PLAYLIST,GROUP_ALL_PLAYLISTS] })
     public: boolean;
+
+    @Column()
+    @Expose({ groups: [GROUP_PLAYLIST,GROUP_ALL_PLAYLISTS] })
+    favourite: boolean;
     
     @JoinColumn()
-    @ManyToOne(() => User, (user) => user.id, { onUpdate: 'CASCADE', onDelete: 'CASCADE', eager: true })
+    @ManyToOne(() => User, (user) => user.id, { eager: true })
     @Expose({ groups: [GROUP_PLAYLIST,GROUP_ALL_PLAYLISTS], toPlainOnly: true }, )
     @Transform(({ value }) => value.id)
     added_by: User;
