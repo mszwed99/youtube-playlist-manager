@@ -1,3 +1,5 @@
+import { VideoI } from "services/VideoService/VideoService.types";
+
 export interface VideoCardPropsI {
   video: {
     etag: string;
@@ -20,7 +22,8 @@ export interface VideoCardPropsI {
       };
       title: string;
     }
-  }
+  };
+  onPressAddVideo: (video: VideoI) => void;
 }
 
 interface ThumbnailI {

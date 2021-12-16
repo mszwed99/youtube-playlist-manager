@@ -14,6 +14,7 @@ export const CheckboxContainer = styled.input`
 	border-radius: 3px;
 	display: inline-block;
 	position: relative;
+  cursor: pointer;
 
   &::after {
     content: '';
@@ -33,6 +34,28 @@ export const CheckboxContainer = styled.input`
 
     &::after {
       transform: translate(-50%, -50%) scale(1);
+    }
+  }
+
+  &:disabled {
+    cursor: default;
+
+    &::after {
+      width: 50%;
+      height: 2px;
+      transform: translate(-50%, -50%) scale(1);
+      background: ${({ theme }) => theme.colors.grey};
+    }
+    &::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      right: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: 80%;
+      border-radius: 50px;
+      border: 2px solid ${({ theme }) => theme.colors.grey};
     }
   }
 `;

@@ -4,4 +4,5 @@ export interface CheckboxPropsI {
   label?: string;
   id: string;
   name: string;
+  disabled?: boolean;
 }

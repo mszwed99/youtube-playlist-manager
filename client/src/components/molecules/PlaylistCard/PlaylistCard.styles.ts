@@ -5,7 +5,6 @@ export const PlaylistCardContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 360px;
-  height: 240px;
   cursor: pointer;
   margin: ${({ theme }) => theme.spacing.large}px auto;
 `;
@@ -24,7 +23,6 @@ export const ThumbnailPlaceholder = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  
 `;
 
 export const VideoDetails = styled.div`

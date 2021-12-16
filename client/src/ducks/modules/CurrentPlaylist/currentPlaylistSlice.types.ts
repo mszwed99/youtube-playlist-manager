@@ -1,7 +1,7 @@
 import { Status } from "ducks/types";
-import { Playlist } from "../UsersPlaylists/usersPlaylistsSlice.types";
+import { PlaylistI } from "../UsersPlaylists/usersPlaylistsSlice.types";
 
 export interface CurrentPlaylistStateI {
-  playlist: Playlist | null;
+  playlist: PlaylistI | null;
   currentPlaylistCallStatus: Status;
 }

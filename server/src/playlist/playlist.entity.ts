@@ -40,12 +40,12 @@ export class Playlist extends BaseEntity {
 
     @ManyToMany(() => User, (user) => user.followed, { cascade: true } )
     @JoinTable()
-    @Expose({ groups: [GROUP_PLAYLIST] })
+    // @Expose({ groups: [GROUP_PLAYLIST] })
     followers: User[];
 
 
     @ManyToMany(() => Video, video => video.playlists)
-    @Expose({ groups: [GROUP_PLAYLIST] })
+    // @Expose({ groups: [GROUP_PLAYLIST] })
     videos: Video[];
     
     isFollowed?: boolean;

@@ -1,5 +1,5 @@
-import { Playlist } from "ducks/modules/UsersPlaylists/usersPlaylistsSlice.types";
+import { PlaylistI } from "ducks/modules/UsersPlaylists/usersPlaylistsSlice.types";
 
 export interface PlaylistCardPropsI {
-  playlist: Playlist;
+  playlist: PlaylistI;
 }
