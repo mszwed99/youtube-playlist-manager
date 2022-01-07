@@ -5,7 +5,6 @@ import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { GetUser } from './get-user.decorator';
 import { User } from './user.entity';
 
-
 @Controller('auth')
 export class AuthController {
     constructor(
@@ -24,6 +23,14 @@ export class AuthController {
         @Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto
     ): Promise<{ accessToken: string }>{
         return this.authService.signIn(authCredentialsDto);
+    }
+
+    @UseGuards(AuthGuard())
+    @Get('info')
+    getInfo(
+        @GetUser() user: User,
+    ) {
+        return this.authService.userInfo(user);
     }
 
 }
