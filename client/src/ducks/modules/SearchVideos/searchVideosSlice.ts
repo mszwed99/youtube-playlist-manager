@@ -58,7 +58,7 @@ export const { clearVideos } = searchVideosSlice.actions;
 export default searchVideosSlice.reducer;
 
 export const mapVideoSnippetToVideoModel = (videoDetails: any) => ({
-  videoId: videoDetails.id,
+  videoId: videoDetails.id.videoId,
   title: videoDetails.snippet.title,
   channelTitle: videoDetails.snippet.channelTitle,
   description: videoDetails.snippet.description,

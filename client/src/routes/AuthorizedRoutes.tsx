@@ -15,7 +15,7 @@ const AuthorizedRoutes = () => (
         <Route exact path="/playlists" component={PublicPlaylists} />
         <Route exact path="/search/:phrase" component={SearchVideoScreen} />
         <Route exact path="/video/:videoId" component={VideoScreen} />
-        <Route exact path="/playlist/:playlistId" component={PlaylistScreen} />
+        <Route exact path="/playlist/:playlistId/video/:videoId" component={PlaylistScreen} />
         {/* <Route path="*" component={Home} /> */}
       </MainTemplate>
     </Switch>

@@ -84,7 +84,7 @@ export class PlaylistRepository extends Repository<Playlist> {
         let playlists = await this.find({ where: {
             public: true
         }, 
-            relations: ["followers"]});
+            relations: ["followers", "videos"]});
 
         playlists = await filterFollow(playlists, user)
         return playlists;
