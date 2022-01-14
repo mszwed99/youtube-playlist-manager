@@ -13,3 +13,5 @@ DELETE  /playlist/delete/:id     -  ususwa playliste od danym id ( tylko wtedy k
 GET     /playlist/info/:id             -  zwraca informacje o playliscie
 
 POST    /video/add/:idPlaylisty    - dodaje video do bazy danych, a następnie przypisuje je do playlisty ( videoId, title, channelTitle, description, publishTime, thumbnail )
+
+DELERE /video/remove/:idPlaylist/:idVideo - usuwa video z playlist, nie usuwa video z bazy danych

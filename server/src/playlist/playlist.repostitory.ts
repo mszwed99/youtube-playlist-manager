@@ -13,9 +13,14 @@ export class PlaylistRepository extends Repository<Playlist> {
 
 
     async addVideoToPlaylist(user: User, id: number, video: Video): Promise<Playlist> {
-        const playlist = await this.findOne({id}, {
+        const playlist = await this.findOne({id, owner: user}, {
             relations:['videos']
         })
+
+        if(!playlist){
+            throw new NotFoundException(`Playlist with id ${id} not found`);
+        }
+
         const videoExist: Video = playlist.videos.find(v => v.videoId === video.videoId)
         if(!videoExist) {
             playlist.videos = [...playlist.videos, video]
@@ -25,25 +30,24 @@ export class PlaylistRepository extends Repository<Playlist> {
         return playlist;
     }
 
-    async removeVideoFromPlaylist(user: User, idPlaylist: number, idVideo: string): Promise<void> {
-        console.log(user.id)
+    async  removeVideoFromPlaylist(user: User, idPlaylist: number, idVideo: string): Promise<void> {
         const playlist = await this.findOne({id: idPlaylist, owner: user}, {
             relations:['videos']
         })
+
         if(!playlist) {
             throw new NotFoundException(`Playlist with id ${idPlaylist} not found`);
         }
 
-        const videoExist  = playlist.videos.filter(v => v.videoId !== idVideo)
+        const videoExist  = playlist.videos.find(v => v.videoId === idVideo)
 
-        // if(!videoExist) {
-        //     throw new NotFoundException(`Video with id ${idVideo} not found`);
-        //     // playlist.videos = [...playlist.videos, video]
-        //     // await playlist.save()
-        //     // return playlist;
-        // }
+        if(!videoExist) {
+            throw new NotFoundException(`Video with id ${idVideo} not found`);
+        }
 
-        console.log(videoExist)
+        const videoDelete = playlist.videos.filter(v => v.videoId !== idVideo)
+        playlist.videos = videoDelete;
+        await playlist.save();
     }
 
     async getPlaylistInfo(id: number, user: User): Promise<Playlist> {

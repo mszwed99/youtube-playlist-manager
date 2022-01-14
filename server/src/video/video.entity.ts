@@ -23,7 +23,7 @@ export class Video extends BaseEntity {
     @Column()
     thumbnail: string;
 
-    @ManyToMany(() => Playlist, (playlist) => playlist.videos, { cascade: true } )
+    @ManyToMany(() => Playlist, (playlist) => playlist.videos)
     @JoinTable()
     playlists: Playlist[];
 }

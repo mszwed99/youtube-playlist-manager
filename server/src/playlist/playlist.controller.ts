@@ -13,7 +13,7 @@ import { PlaylistService } from './playlist.service';
 export class PlaylistController {
     constructor(
         private readonly playlistService: PlaylistService
-    ) {}
+    ){} 
 
 
     @Get('info/:id')
@@ -91,7 +91,8 @@ export class PlaylistController {
         return this.playlistService.unfollowPlaylist(id, user);
     }
 
-    @Patch(':id')
+
+    @Patch('edit/:id')
     @SerializeOptions({
         groups: [GROUP_PLAYLIST, GROUP_ALL_PLAYLISTS],
       })
@@ -110,7 +111,6 @@ export class PlaylistController {
     ): Promise<void> {
         return this.playlistService.deletePlaylist(id, user);
     }
-
 
    
 }

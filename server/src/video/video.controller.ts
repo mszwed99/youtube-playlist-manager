@@ -25,13 +25,13 @@ export class VideoController {
         //return this.videoService.addVideo(addVideoDto);
     }
 
-    // @Delete('remove/:idPlaylist/:idVideo')
-    // removeVideoFromPlaylist(
-    //     @GetUser() user: User,
-    //     @Param('idPlaylist', ParseIntPipe) idPlaylist: number,
-    //     @Param('idVideo') idVideo: string,
-    // ): Promise<any> {
-    //     return this.videoService.removeVideoFromPlaylist(user, idPlaylist, idVideo);
-    // }
+    @Delete('remove/:idPlaylist/:idVideo')
+    removeVideoFromPlaylist(
+        @GetUser() user: User,
+        @Param('idPlaylist', ParseIntPipe) idPlaylist: number,
+        @Param('idVideo') idVideo: string,
+    ): Promise<any> {
+        return this.videoService.removeVideoFromPlaylist(user, idPlaylist, idVideo);
+    }
 
 }
