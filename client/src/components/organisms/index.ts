@@ -9,3 +9,4 @@ export { Modal } from './Modal/Modal.component';
 export { CreatePlaylistForm } from './CreatePlaylistForm/CreatePlaylistForm.component';
 export { PlaylistList } from './PlaylistList/PlaylistList.component';
 export { PlaylistVideos } from './PlaylistVideos/PlaylistVideos.component';
+export { PlaylistHeader } from './PlaylistHeader/PlaylistHeader.component';

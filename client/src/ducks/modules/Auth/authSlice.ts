@@ -8,6 +8,7 @@ const initialState: AuthStateI = {
   jwtToken: localStorage.getItem('access-token') || null,
   wasAccountCreated: false,
   isLoading: false,
+  userInfo: JSON.parse(localStorage.getItem('userInfo')) || null,
 };
 
 export const register = createAsyncThunk('auth/register', async (payload: RegisterPayloadI) => {
@@ -17,6 +18,10 @@ export const register = createAsyncThunk('auth/register', async (payload: Regist
 export const login = createAsyncThunk('auth/signup', async (payload: LoginPayloadI) => {
   return await API.AuthService.login(payload);
 });
+
+export const getUserInfo = createAsyncThunk('auth/info', async () => {
+  return await API.AuthService.getUserInfo();
+})
 
 const authSlice = createSlice({
   name: 'auth',
@@ -62,6 +67,10 @@ const authSlice = createSlice({
       state.isLoading = false;
       state.wasAccountCreated = true;
     },
+    [getUserInfo.fulfilled.toString()]: (state, action) => {
+      state.userInfo = action.payload.data;
+      window.localStorage.setItem('userInfo', JSON.stringify(action.payload.data));
+    }
   },
 });
 

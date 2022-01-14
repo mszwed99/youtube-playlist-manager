@@ -3,8 +3,9 @@ import { MainTemplateContext } from 'components/templates/MainTemplate/MainTempl
 import { logOut } from 'ducks/modules/Auth/authSlice';
 import React, { useContext, useState } from 'react';
 import { FiLogOut } from 'react-icons/fi';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import { RootState } from 'ducks/modules/rootReducer';
 import { HeaderContainer, LogoutContainer, SearchContainer } from './Header.styles';
 import { SearchButton } from '../../atoms/SearchButton/SearchButton.component';
 
@@ -12,6 +13,7 @@ export const Header: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { isSidebarExpanded, toggleSidebar } = useContext(MainTemplateContext);
+  const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const [searchValue, setSearchValue] = useState('');
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Input, Link } from 'components/atoms';
 import { useDispatch } from 'react-redux';
-import { login } from 'ducks/modules/Auth/authSlice';
+import { getUserInfo, login } from 'ducks/modules/Auth/authSlice';
 import { LoginFormContainer, RegisterText } from './LoginForm.styles';
 
 export const LoginForm = () => {
@@ -14,7 +14,10 @@ export const LoginForm = () => {
 
   const isButtonAvailable: boolean = Boolean(username.length && password.length);
 
-  const onPress: () => void = () => dispatch(login({ username, password }));
+  const onPress: () => void = async () => {
+    await dispatch(login({ username, password }));
+    dispatch(getUserInfo());
+  };
 
   return (
     <LoginFormContainer>
