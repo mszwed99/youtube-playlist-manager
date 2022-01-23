@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import API from 'services';
 import { toast } from 'react-toastify';
-import { EditPlaylistNameI, EditPlaylistPublicI, FollowPlaylistI } from 'services/PlaylistsService/PlaylistsService.types';
+import { DeleteVideoI, EditPlaylistNameI, EditPlaylistPublicI, FollowPlaylistI } from 'services/PlaylistsService/PlaylistsService.types';
 import { CurrentPlaylistStateI } from './currentPlaylistSlice.types';
 
 const initialState: CurrentPlaylistStateI = {
@@ -23,6 +23,10 @@ export const editPlaylistIsPublic = createAsyncThunk('playlist/editIsPublic', as
 
 export const deletePlaylist = createAsyncThunk('playlist/deletePlaylist', async (payload: FollowPlaylistI) => {
   return await API.PlaylistService.deletePlaylist(payload);
+});
+
+export const deleteVideo = createAsyncThunk('playlist/deleteVideo', async (payload: DeleteVideoI) => {
+  return await API.PlaylistService.deleteVideo(payload);
 });
 
 const currentPlaylistSlice = createSlice({

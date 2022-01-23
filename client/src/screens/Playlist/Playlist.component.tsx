@@ -1,5 +1,5 @@
 import { PlaylistHeader } from 'components/organisms';
-import { getPlaylistDetails } from 'ducks/modules/CurrentPlaylist/currentPlaylistSlice';
+import { deleteVideo, getPlaylistDetails } from 'ducks/modules/CurrentPlaylist/currentPlaylistSlice';
 import { RootState } from 'ducks/modules/rootReducer';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -31,6 +31,11 @@ const Playlist: React.FC<{ match: any }> = ({ match }) => {
 
   const onPressVideo = (videoId: string) => history.push(`/playlist/${playlistId}/video/${videoId}`);
 
+  const onPressDeleteVideo = async (videoId: string) => {
+    await dispatch(deleteVideo({ playlistId, videoId }));
+    await dispatch(getPlaylistDetails({ id: playlistId }));
+  }
+
   return (
     <Container>
       <PlaylistHeader playlist={playlist} />
@@ -40,7 +45,7 @@ const Playlist: React.FC<{ match: any }> = ({ match }) => {
           onReady={onReady}
           opts={{ ...options, playerVars: { autoplay: 1 } }}
         />
-        <PlaylistVideos videos={playlist?.videos} onPressVideo={onPressVideo} />
+        <PlaylistVideos videos={playlist?.videos} onPressVideo={onPressVideo} onPressDeleteVideo={onPressDeleteVideo} />
       </Content>
     </Container>
   );

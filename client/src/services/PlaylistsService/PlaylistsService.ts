@@ -1,5 +1,5 @@
 import { APIService } from 'services/APIService';
-import { CreatePlaylistI, EditPlaylistNameI, EditPlaylistPublicI, FollowPlaylistI } from './PlaylistsService.types';
+import { CreatePlaylistI, DeleteVideoI, EditPlaylistNameI, EditPlaylistPublicI, FollowPlaylistI } from './PlaylistsService.types';
 
 export const getPlaylists = () => APIService.get('playlist');
 
@@ -20,3 +20,5 @@ export const editPlaylistName = (payload: EditPlaylistNameI) => APIService.patch
 export const editPlaylistIsPublic = (payload: EditPlaylistPublicI) => APIService.patch(`playlist/edit/${payload.id}`, { isPublic: payload.isPublic });
 
 export const deletePlaylist = (payload: FollowPlaylistI) => APIService.delete(`playlist/delete/${payload.id}`);
+
+export const deleteVideo = (payload: DeleteVideoI) => APIService.delete(`video/remove/${payload.playlistId}/${payload.videoId}`);

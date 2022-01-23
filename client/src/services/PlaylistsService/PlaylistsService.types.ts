@@ -14,3 +14,8 @@ export interface EditPlaylistNameI extends FollowPlaylistI {
 export interface EditPlaylistPublicI extends FollowPlaylistI {
   isPublic: boolean;
 }
+
+export interface DeleteVideoI {
+  playlistId: string;
+  videoId: string;
+}

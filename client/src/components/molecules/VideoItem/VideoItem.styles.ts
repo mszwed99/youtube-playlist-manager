@@ -29,3 +29,20 @@ export const Title = styled.p`
 
 export const Channel = styled.p`
 `;
+
+export const DeleteButton = styled.div`
+  height: 20px;
+  flex-basis: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${({ theme }) => theme.colors.white};
+  background: ${({ theme }) => theme.colors.error};
+  border-radius: ${({ theme }) => theme.radii.xxxLarge}px;
+  transition: 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 1px 8px 0 #000;
+  }
+`;
