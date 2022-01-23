@@ -6,7 +6,7 @@ import { FiLogOut } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { RootState } from 'ducks/modules/rootReducer';
-import { HeaderContainer, LogoutContainer, SearchContainer } from './Header.styles';
+import { HeaderContainer, LogoutContainer, SearchContainer, UserContainer, UserInfo } from './Header.styles';
 import { SearchButton } from '../../atoms/SearchButton/SearchButton.component';
 
 export const Header: React.FC = () => {
@@ -14,7 +14,6 @@ export const Header: React.FC = () => {
   const history = useHistory();
   const { isSidebarExpanded, toggleSidebar } = useContext(MainTemplateContext);
   const { userInfo } = useSelector((state: RootState) => state.auth);
-
   const [searchValue, setSearchValue] = useState('');
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.currentTarget.value);
@@ -44,7 +43,10 @@ export const Header: React.FC = () => {
         <Input value={searchValue} name='Search' onChange={handleSearchInputChange} transparent placeholder="Szukaj" />
         <SearchButton onPress={onSearchPress} />
       </SearchContainer>
-      <LogoutContainer onClick={logout}><FiLogOut /></LogoutContainer>
+      <UserContainer>
+        <UserInfo>Witaj, {userInfo.username}</UserInfo>
+        <LogoutContainer onClick={logout}><FiLogOut /></LogoutContainer>
+      </UserContainer>
     </HeaderContainer>
   );
 };

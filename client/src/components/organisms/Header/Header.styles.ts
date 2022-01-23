@@ -21,3 +21,14 @@ export const SearchContainer = styled.form`
   align-items: center;
   height: 100%;
 `;
+
+export const UserContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const UserInfo = styled.div`
+  color: ${({ theme }) => theme.colors.white};
+  margin-right: ${({ theme }) => theme.spacing.medium}px;
+`;
