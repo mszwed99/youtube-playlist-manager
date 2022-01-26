@@ -29,7 +29,7 @@ export class Playlist extends BaseEntity {
     // @Transform(({ value }) => value.id)
     // added_by: User;
 
-    @Exclude({ toPlainOnly: true })
+
     @ManyToOne(() => User, owner => owner.playlists, { eager: true })
     owner: User;
 
