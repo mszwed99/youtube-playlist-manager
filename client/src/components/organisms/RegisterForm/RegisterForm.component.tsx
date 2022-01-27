@@ -21,7 +21,7 @@ export const RegisterForm = () => {
     { condition: 'Login musi mieć conajmniej 4 znaki', conditionPasssed: username.length >= 4 },
     { condition: 'Hasło musi mieć conajmniej 8 znaków', conditionPasssed: password.length >= 8 },
     { condition: 'Hasło musi posiadać conajmniej jedną wielką literę [A-Z]', conditionPasssed: /[A-Z]/.test(password) },
-    { condition: 'Hasło musi zawierać coanjmniej jedną liczbę [0-9]', conditionPasssed: /\d/.test(password) },
+    { condition: 'Hasło musi zawierać conajmniej jedną liczbę [0-9]', conditionPasssed: /\d/.test(password) },
     { condition: 'Hasła muszą się zgadzać', conditionPasssed: password === repeatedPassword && Boolean(password.length) }
   ];
 
