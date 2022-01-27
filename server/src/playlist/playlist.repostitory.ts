@@ -143,7 +143,6 @@ export class PlaylistRepository extends Repository<Playlist> {
         playlist.name = name;
         playlist.public = isPublic;
         playlist.owner = user;
-        // playlist.added_by = user
 
         await playlist.save();
         return playlist;
@@ -159,7 +158,7 @@ export class PlaylistRepository extends Repository<Playlist> {
 
     async editPlaylist(id: number, user: User,  updatePlaylistDto:  UpdatePlaylistDto): Promise<Playlist> {
         const playlist = await this.findOne({id})
-
+        const { name, isPublic} = updatePlaylistDto
         if(!playlist) {
             throw new NotFoundException('Not found')
         }
