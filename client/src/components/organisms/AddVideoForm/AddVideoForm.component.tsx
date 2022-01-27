@@ -24,7 +24,6 @@ export const AddVideoForm: React.FC<AddVideoFormPropsI> = ({ video, playlists, c
   const shouldAddButtonBeDisabled: boolean = !formData.filter(row => row.shouldBeAdded).length;
 
   const addVideoToSelectedPlaylists: () => Promise<number[]> = async () => {
-    console.log('gowno1')
     let statuses: number[] = [];
     const playlistsWhereVideoShouldBeAdded = formData.filter((row) => row.shouldBeAdded);
     await Promise.all(playlistsWhereVideoShouldBeAdded.map(async playlist => {
@@ -37,9 +36,8 @@ export const AddVideoForm: React.FC<AddVideoFormPropsI> = ({ video, playlists, c
     }))
     return statuses;
   }
-  console.log(video)
+
   const onPressAddToPlaylist = async () => {
-    console.log('gowno2')
     const statuses = await addVideoToSelectedPlaylists();
     dispatch(getPlaylists());
     closeModalFc();

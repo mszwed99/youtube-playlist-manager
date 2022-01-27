@@ -52,9 +52,8 @@ export const PlaylistHeader: React.FC<PlaylistHeaderI> = ({ playlist }) => {
   return (
     <Header>
       <DetailsContainer>
-        {/* @TODO: playlist.owner.id === userInfo.id Add checking if user is owner when owner will be adder */}
         {!isEditingName ? (
-          <Title>{playlist?.name} <FiEdit2 size={18} onClick={onPressEditPlaylistName} cursor="pointer" /></Title>
+          <Title>{playlist?.name} {playlist?.owner.id === userInfo.id ? <FiEdit2 size={18} onClick={onPressEditPlaylistName} cursor="pointer" /> : null}</Title>
         ) : (
           <>
             <Input value={editingValue} onChange={handleEditingNameChange} name="editingPlaylistName" />
@@ -65,10 +64,8 @@ export const PlaylistHeader: React.FC<PlaylistHeaderI> = ({ playlist }) => {
         <SubTitle>stworzona przez testuser</SubTitle>
         <SubTitle>{playlist?.videos?.length} utworów</SubTitle>
       </DetailsContainer>
-      {/* @TODO: playlist.owner.id === userInfo.id Add checking if user is owner when owner will be added */}
-      <Button label={playlist?.public ? 'Zmień na prywatną' : 'Zmień na publiczną'} onPress={onChangePublicPress} secondary />
-      {/* @TODO: playlist.owner.id === userInfo.id Add checking if user is owner when owner will be added */}
-      {userInfo.id === userInfo.id ? (
+      {playlist?.owner.id === userInfo.id ? <Button label={playlist?.public ? 'Zmień na prywatną' : 'Zmień na publiczną'} onPress={onChangePublicPress} secondary /> : null}
+      {playlist?.owner.id === userInfo.id ? (
         <Button label="Usuń" onPress={onDeletePlaylistPress} error />
       ) : (
         <Button label={isFollowed ? 'Przestań obserwować' : 'Obserwuj'} secondary={isFollowed} onPress={onPressFollow} />

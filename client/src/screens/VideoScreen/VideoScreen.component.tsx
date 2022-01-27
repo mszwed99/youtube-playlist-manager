@@ -28,7 +28,7 @@ const VideoScreen: React.FC<{ match: any }> = ({ match }) => {
 
   useEffect(() => {
     if (!location.state?.video) {
-      // dispatch(getVideoDetailsById(videoId));
+      dispatch(getVideoDetailsById(videoId));
     }
   }, [dispatch, location.state, videoId]);
 
@@ -44,10 +44,8 @@ const VideoScreen: React.FC<{ match: any }> = ({ match }) => {
     height: (window.innerHeight * 0.6).toString(),
     width: (window.innerWidth * 0.6).toString(),
   }
-  // albo brak state.video albo 
+
   const shouldDisableAddButton: boolean = !location.state?.video && selectedVideoCallStatus !== 'SUCCESS';
-  console.log(shouldDisableAddButton);
-  console.log(isAddVideoModalVisible, selectedVideo);
   const shouldDisplayModal: boolean = !!(isAddVideoModalVisible && ((selectedVideo && selectedVideoCallStatus) || location.state.video));
   const video: VideoI = selectedVideo ? selectedVideo : location.state.video;
   return (

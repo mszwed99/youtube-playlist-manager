@@ -51,7 +51,6 @@ const currentPlaylistSlice = createSlice({
       state.playlist = action.payload.data;
     },
     [editPlaylistName.fulfilled.toString()]: (_, action) => {
-      console.log(action);
       toast.success(`Pomyślnie edytowano nazwę playlisty na ${action.meta.arg.name}`);
     },
     [editPlaylistIsPublic.fulfilled.toString()]: (_, action) => {

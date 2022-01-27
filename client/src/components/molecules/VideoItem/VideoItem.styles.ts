@@ -31,12 +31,13 @@ export const Channel = styled.p`
 `;
 
 export const DeleteButton = styled.div`
-  height: 20px;
-  flex-basis: 36px;
+  height: 18px;
+  width: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   color: ${({ theme }) => theme.colors.white};
+  opacity: 0.8;
   background: ${({ theme }) => theme.colors.error};
   border-radius: ${({ theme }) => theme.radii.xxxLarge}px;
   transition: 0.3s ease-in-out;

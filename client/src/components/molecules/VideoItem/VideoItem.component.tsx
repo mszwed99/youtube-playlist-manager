@@ -20,7 +20,9 @@ export const VideoItem: React.FC<VideoItemPropsI> = ({ video, onPressVideo, onPr
         <Title>{video.title}</Title>
         <Channel>{video.channelTitle}</Channel>
       </TitleAndAuthor>
-      <DeleteButton onClick={onDeletePress}>x</DeleteButton>
+      <div>
+        <DeleteButton onClick={onDeletePress}>x</DeleteButton>
+      </div>
     </VideoItemContainer >
   );
 }

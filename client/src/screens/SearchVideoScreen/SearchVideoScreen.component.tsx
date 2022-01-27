@@ -6,7 +6,6 @@ import { getPlaylists } from 'ducks/modules/UsersPlaylists/usersPlaylistsSlice';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { VideoI } from 'services/VideoService/VideoService.types';
-import { videosMock } from './mocks';
 import { RetryContainer, RetryMessage, SearchVideoScreenContainer } from './SearchVideoScreen.style';
 
 const SearchVideoScreen: React.FC<{ match: any }> = ({ match }) => {
@@ -17,9 +16,6 @@ const SearchVideoScreen: React.FC<{ match: any }> = ({ match }) => {
 
   const [isAddVideoModalVisible, setIsAddVideoModalVisible] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState<VideoI | null>(null);
-
-  // const videos = videosMock;
-  // const status = "SUCCESS";
 
   useEffect(() => {
     if (playlistsCallStatus === 'NOT_SET') {
