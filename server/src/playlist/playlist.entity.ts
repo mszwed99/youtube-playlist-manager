@@ -11,15 +11,15 @@ export const GROUP_ALL_PLAYLISTS = 'group_all_users';
 @Entity()
 export class Playlist extends BaseEntity {
     @PrimaryGeneratedColumn()
-    @Expose({ groups: [GROUP_PLAYLIST,GROUP_ALL_PLAYLISTS] })
+
     id: number;
 
     @Column()
-    @Expose({ groups: [GROUP_PLAYLIST,GROUP_ALL_PLAYLISTS] })
+
     name: string;
 
     @Column()
-    @Expose({ groups: [GROUP_PLAYLIST,GROUP_ALL_PLAYLISTS] })
+
     public: boolean;
     
     

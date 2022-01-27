@@ -14,11 +14,11 @@ export class User extends BaseEntity {
     @Column()
     username: string;
 
-    @Exclude({ toPlainOnly: true })
+
     @Column()
     password: string;
 
-    @Exclude({ toPlainOnly: true })
+
     @Column()
     salt: string;
 
