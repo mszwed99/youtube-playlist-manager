@@ -6,6 +6,8 @@ import { FiLogOut } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { RootState } from 'ducks/modules/rootReducer';
+import { clearPlaylists } from 'ducks/modules/UsersPlaylists/usersPlaylistsSlice';
+import { clearVideos } from 'ducks/modules/SearchVideos/searchVideosSlice';
 import { HeaderContainer, LogoutContainer, SearchContainer, UserContainer, UserInfo } from './Header.styles';
 import { SearchButton } from '../../atoms/SearchButton/SearchButton.component';
 
@@ -20,6 +22,8 @@ export const Header: React.FC = () => {
 
   const logout: () => void = () => {
     dispatch(logOut());
+    dispatch(clearPlaylists());
+    dispatch(clearVideos());
     history.push('/');
   }
 
@@ -44,7 +48,7 @@ export const Header: React.FC = () => {
         <SearchButton onPress={onSearchPress} />
       </SearchContainer>
       <UserContainer>
-        <UserInfo>Witaj, {userInfo.username}</UserInfo>
+        <UserInfo>Witaj, {userInfo?.username}</UserInfo>
         <LogoutContainer onClick={logout}><FiLogOut /></LogoutContainer>
       </UserContainer>
     </HeaderContainer>

@@ -46,7 +46,7 @@ const Playlist: React.FC<{ match: any }> = ({ match }) => {
             onReady={onReady}
             opts={{ ...options, playerVars: { autoplay: 1 } }}
           />
-          <PlaylistVideos videos={playlist?.videos} onPressVideo={onPressVideo} onPressDeleteVideo={onPressDeleteVideo} />
+          <PlaylistVideos owner={playlist.owner} videos={playlist?.videos} onPressVideo={onPressVideo} onPressDeleteVideo={onPressDeleteVideo} />
         </Content>
       ) : <Content>Brak filmów</Content>}
     </Container>

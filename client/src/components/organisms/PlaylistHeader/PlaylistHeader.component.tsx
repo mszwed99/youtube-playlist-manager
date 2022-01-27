@@ -15,7 +15,7 @@ export const PlaylistHeader: React.FC<PlaylistHeaderI> = ({ playlist }) => {
   const { publicPlaylists } = useSelector((state: RootState) => state.publicPlaylists);
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
-  const [isFollowed, setIsFollowed] = useState(publicPlaylists.find(plist => plist.id == playlist.id)?.followers.some(follower => follower.id === 2));
+  const [isFollowed, setIsFollowed] = useState(publicPlaylists.find(plist => plist.id == playlist?.id)?.followers.some(follower => follower.id === userInfo.id));
   const [isEditingName, setIsEditingName] = useState(false);
   const [editingValue, setEditingValue] = useState('');
 
@@ -61,7 +61,7 @@ export const PlaylistHeader: React.FC<PlaylistHeaderI> = ({ playlist }) => {
           </>
         )}
         <h2>{playlist?.public ? 'Publiczna' : 'Prywatna'}</h2>
-        <SubTitle>stworzona przez testuser</SubTitle>
+        <SubTitle>stworzona przez {playlist?.owner.username}</SubTitle>
         <SubTitle>{playlist?.videos?.length} utworów</SubTitle>
       </DetailsContainer>
       {playlist?.owner.id === userInfo.id ? <Button label={playlist?.public ? 'Zmień na prywatną' : 'Zmień na publiczną'} onPress={onChangePublicPress} secondary /> : null}
