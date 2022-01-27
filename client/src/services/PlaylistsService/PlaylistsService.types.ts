@@ -6,3 +6,16 @@ export interface CreatePlaylistI {
 export interface FollowPlaylistI {
   id: string;
 }
+
+export interface EditPlaylistNameI extends FollowPlaylistI {
+  name: string;
+}
+
+export interface EditPlaylistPublicI extends FollowPlaylistI {
+  isPublic: boolean;
+}
+
+export interface DeleteVideoI {
+  playlistId: string;
+  videoId: string;
+}

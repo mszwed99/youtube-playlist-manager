@@ -1,11 +1,16 @@
 import React from 'react';
-import { VideoItemContainer, Thumbnail, TitleAndAuthor, Title, Channel } from './VideoItem.styles';
+import { VideoItemContainer, Thumbnail, TitleAndAuthor, Title, Channel, DeleteButton } from './VideoItem.styles';
 import { VideoItemPropsI } from './VideoItem.types';
 
-export const VideoItem: React.FC<VideoItemPropsI> = ({ video, onPressVideo }) => {
+export const VideoItem: React.FC<VideoItemPropsI> = ({ video, onPressVideo, onPressDeleteVideo }) => {
 
   const onPress = () => {
     onPressVideo(video.videoId);
+  }
+
+  const onDeletePress = (e: any) => {
+    e.stopPropagation();
+    onPressDeleteVideo(video.videoId);
   }
 
   return (
@@ -15,6 +20,9 @@ export const VideoItem: React.FC<VideoItemPropsI> = ({ video, onPressVideo }) =>
         <Title>{video.title}</Title>
         <Channel>{video.channelTitle}</Channel>
       </TitleAndAuthor>
-    </VideoItemContainer>
+      <div>
+        <DeleteButton onClick={onDeletePress}>x</DeleteButton>
+      </div>
+    </VideoItemContainer >
   );
 }

@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import API from 'services';
 import { toast } from 'react-toastify';
+import { DeleteVideoI, EditPlaylistNameI, EditPlaylistPublicI, FollowPlaylistI } from 'services/PlaylistsService/PlaylistsService.types';
 import { CurrentPlaylistStateI } from './currentPlaylistSlice.types';
-import { FollowPlaylistI } from '../../../services/PlaylistsService/PlaylistsService.types';
 
 const initialState: CurrentPlaylistStateI = {
   playlist: null,
@@ -11,6 +11,22 @@ const initialState: CurrentPlaylistStateI = {
 
 export const getPlaylistDetails = createAsyncThunk('playlist/info', async (payload: FollowPlaylistI) => {
   return await API.PlaylistService.getPlaylistDetails(payload);
+});
+
+export const editPlaylistName = createAsyncThunk('playlist/editName', async (payload: EditPlaylistNameI) => {
+  return await API.PlaylistService.editPlaylistName(payload);
+});
+
+export const editPlaylistIsPublic = createAsyncThunk('playlist/editIsPublic', async (payload: EditPlaylistPublicI) => {
+  return await API.PlaylistService.editPlaylistIsPublic(payload);
+});
+
+export const deletePlaylist = createAsyncThunk('playlist/deletePlaylist', async (payload: FollowPlaylistI) => {
+  return await API.PlaylistService.deletePlaylist(payload);
+});
+
+export const deleteVideo = createAsyncThunk('playlist/deleteVideo', async (payload: DeleteVideoI) => {
+  return await API.PlaylistService.deleteVideo(payload);
 });
 
 const currentPlaylistSlice = createSlice({
@@ -34,6 +50,15 @@ const currentPlaylistSlice = createSlice({
       state.currentPlaylistCallStatus = 'SUCCESS';
       state.playlist = action.payload.data;
     },
+    [editPlaylistName.fulfilled.toString()]: (_, action) => {
+      toast.success(`Pomyślnie edytowano nazwę playlisty na ${action.meta.arg.name}`);
+    },
+    [editPlaylistIsPublic.fulfilled.toString()]: (_, action) => {
+      toast.success(`Pomyślnie zmieniono status playlisty na ${action.meta.arg.isPublic ? 'publiczną' : 'prywatną'}`);
+    },
+    [deletePlaylist.fulfilled.toString()]: () => {
+      toast.success('Pomyślnie usunięto playlistę');
+    }
   },
 });
 
