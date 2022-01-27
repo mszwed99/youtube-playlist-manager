@@ -39,14 +39,16 @@ const Playlist: React.FC<{ match: any }> = ({ match }) => {
   return (
     <Container>
       <PlaylistHeader playlist={playlist} />
-      <Content>
-        <YouTube
-          videoId={videoId}
-          onReady={onReady}
-          opts={{ ...options, playerVars: { autoplay: 1 } }}
-        />
-        <PlaylistVideos videos={playlist?.videos} onPressVideo={onPressVideo} onPressDeleteVideo={onPressDeleteVideo} />
-      </Content>
+      {playlist?.videos.length ? (
+        <Content>
+          <YouTube
+            videoId={videoId}
+            onReady={onReady}
+            opts={{ ...options, playerVars: { autoplay: 1 } }}
+          />
+          <PlaylistVideos videos={playlist?.videos} onPressVideo={onPressVideo} onPressDeleteVideo={onPressDeleteVideo} />
+        </Content>
+      ) : <Content>Brak filmów</Content>}
     </Container>
   );
 }

@@ -9,7 +9,7 @@ export const PlaylistCard: React.FC<PlaylistCardPropsI> = ({ playlist }) => {
   const { videos, name } = playlist;
 
   const onPlaylistPress = (): void => {
-    history.push(`/playlist/${playlist.id}/video/${playlist.videos[0].videoId}`);
+    history.push(`/playlist/${playlist.id}${playlist.videos[0]?.videoId ? `/video/${playlist.videos[0]?.videoId}` : ''}`);
   }
 
   return (
