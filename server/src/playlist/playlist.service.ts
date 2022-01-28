@@ -33,10 +33,21 @@ export class PlaylistService {
     }
 
 
-    // Dopracować return z playlistami
     async getFollowedPlaylists(user: User): Promise<Playlist[]> {
-        return this.userRepository.getFollowedPlaylists(user)
-        //return this.playlistRepository.getFollowedPlaylists(user);
+        const playlists = await this.userRepository.getFollowedPlaylists(user)
+        let playlistWithVideo: Playlist
+        let playlistsVideos: Playlist[] = []
+
+        
+        for(let playlist of playlists) {
+            playlistWithVideo = await this.playlistRepository.findOne({id: playlist.id}, {
+                        relations:['videos', 'followers']
+            })
+            playlistsVideos.push(playlistWithVideo)
+        }
+
+        return playlistsVideos
+       
     }
 
 

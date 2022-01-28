@@ -1,12 +1,22 @@
-import { BadRequestException, ConflictException, InternalServerErrorException } from "@nestjs/common";
+import { BadRequestException, ConflictException, Inject, InternalServerErrorException } from "@nestjs/common";
 import { EntityRepository, Repository } from "typeorm";
 import { AuthCredentialsDto } from "./dto/auth-credentials.dto";
 import { User } from "./user.entity";
 import * as bcrypt from 'bcrypt';
 import { Playlist } from "src/playlist/playlist.entity";
 import { filterFollow } from "src/playlist/follow-validation";
+import { InjectRepository } from "@nestjs/typeorm";
+import { PlaylistRepository } from "src/playlist/playlist.repostitory";
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
+
+    constructor(
+        
+        @InjectRepository(PlaylistRepository)
+        private playlistRepository: PlaylistRepository
+    ) {
+        super();
+    }
 
     async getFollowedPlaylists(user: User): Promise<Playlist[]> {
 
@@ -16,17 +26,17 @@ export class UserRepository extends Repository<User> {
                 id: user.id
             }
         })
-
+        
         if(!userInfo) {
             return []
         }
-
         let playlists: Playlist[] = userInfo.followed
         
         for (let playlist of playlists) {
             playlist.isFollowed = true
+            //playlist.videos = await this.playlistRepository.getVideos(playlist.id)
         }
-
+        
         return playlists;
     }
 

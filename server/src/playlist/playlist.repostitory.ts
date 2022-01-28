@@ -10,7 +10,13 @@ import { UpdatePlaylistDto } from "./dto/update-playlist.dto";
 @EntityRepository(Playlist)
 export class PlaylistRepository extends Repository<Playlist> {
 
+    async getVideos(id: number): Promise<Video[]> {
+        const playlist = await this.findOne({id}, {
+            relations:['videos']
+        })
 
+        return playlist.videos
+    }
 
     async addVideoToPlaylist(user: User, id: number, video: Video): Promise<Playlist> {
         const playlist = await this.findOne({id, owner: user}, {
