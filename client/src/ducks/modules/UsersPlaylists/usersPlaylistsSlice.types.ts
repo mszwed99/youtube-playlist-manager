@@ -25,4 +25,5 @@ export interface PlaylistI {
     password: string;
     salt: string;
   }
+  isFollowed: boolean;
 }

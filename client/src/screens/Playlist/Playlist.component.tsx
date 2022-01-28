@@ -12,7 +12,7 @@ const Playlist: React.FC<{ match: any }> = ({ match }) => {
   const history = useHistory();
   const { playlistId, videoId } = match.params;
   const dispatch = useDispatch();
-  const { playlist, currentPlaylistCallStatus } = useSelector((state: RootState) => state.currentPlaylist);
+  const { currentPlaylist, currentPlaylistCallStatus } = useSelector((state: RootState) => state.currentPlaylist);
 
   const [player, setPlayer] = useState(null);
 
@@ -38,15 +38,15 @@ const Playlist: React.FC<{ match: any }> = ({ match }) => {
 
   return (
     <Container>
-      <PlaylistHeader playlist={playlist} />
-      {playlist?.videos.length ? (
+      <PlaylistHeader playlist={currentPlaylist} />
+      {currentPlaylist?.videos.length ? (
         <Content>
           <YouTube
             videoId={videoId}
             onReady={onReady}
             opts={{ ...options, playerVars: { autoplay: 1 } }}
           />
-          <PlaylistVideos owner={playlist.owner} videos={playlist?.videos} onPressVideo={onPressVideo} onPressDeleteVideo={onPressDeleteVideo} />
+          <PlaylistVideos owner={currentPlaylist.owner} videos={currentPlaylist?.videos} onPressVideo={onPressVideo} onPressDeleteVideo={onPressDeleteVideo} />
         </Content>
       ) : <Content>Brak filmów</Content>}
     </Container>

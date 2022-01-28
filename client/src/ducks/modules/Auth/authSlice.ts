@@ -41,7 +41,7 @@ const authSlice = createSlice({
     },
     [login.rejected.toString()]: (state, action) => {
       state.isLoading = false;
-      if (action.error.message === 'Request failed with status code 400') {
+      if (action.error.message === 'Request failed with status code 401') {
         toast.error('Login i/lub hasło są błędne');
       } else {
         toast.error(action.error.message);

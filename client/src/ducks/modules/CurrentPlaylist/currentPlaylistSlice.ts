@@ -5,7 +5,7 @@ import { DeleteVideoI, EditPlaylistNameI, EditPlaylistPublicI, FollowPlaylistI }
 import { CurrentPlaylistStateI } from './currentPlaylistSlice.types';
 
 const initialState: CurrentPlaylistStateI = {
-  playlist: null,
+  currentPlaylist: null,
   currentPlaylistCallStatus: 'NOT_SET',
 };
 
@@ -35,7 +35,7 @@ const currentPlaylistSlice = createSlice({
   reducers: {
     clearCurrentPlaylist: state => {
       state.currentPlaylistCallStatus = 'NOT_SET';
-      state.playlist  = null;
+      state.currentPlaylist  = null;
     }
   },
   extraReducers: {
@@ -48,7 +48,7 @@ const currentPlaylistSlice = createSlice({
     },
     [getPlaylistDetails.fulfilled.toString()]: (state, action) => {
       state.currentPlaylistCallStatus = 'SUCCESS';
-      state.playlist = action.payload.data;
+      state.currentPlaylist = action.payload.data;
     },
     [editPlaylistName.fulfilled.toString()]: (_, action) => {
       toast.success(`Pomyślnie edytowano nazwę playlisty na ${action.meta.arg.name}`);

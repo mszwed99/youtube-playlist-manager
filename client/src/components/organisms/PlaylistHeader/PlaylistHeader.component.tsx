@@ -1,6 +1,6 @@
 import { Button, Input } from 'components/atoms';
 import { RootState } from 'ducks/modules/rootReducer';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { followPlaylist, getPlaylists, unfollowPlaylist } from 'ducks/modules/UsersPlaylists/usersPlaylistsSlice';
 import { deletePlaylist, editPlaylistName, getPlaylistDetails, editPlaylistIsPublic } from 'ducks/modules/CurrentPlaylist/currentPlaylistSlice';
@@ -12,12 +12,16 @@ import { PlaylistHeaderI } from './PlaylistHeader.types';
 export const PlaylistHeader: React.FC<PlaylistHeaderI> = ({ playlist }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { publicPlaylists } = useSelector((state: RootState) => state.publicPlaylists);
+  const { currentPlaylist } = useSelector((state: RootState) => state.currentPlaylist);
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
-  const [isFollowed, setIsFollowed] = useState(publicPlaylists.find(plist => plist.id == playlist?.id)?.followers.some(follower => follower.id === userInfo.id));
+  const [isFollowed, setIsFollowed] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
   const [editingValue, setEditingValue] = useState('');
+
+  useEffect(() => {
+    setIsFollowed(currentPlaylist?.isFollowed);
+  }, [currentPlaylist]);
 
   const onPressFollow = () => {
     setIsFollowed(!isFollowed);
