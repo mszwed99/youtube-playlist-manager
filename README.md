@@ -1,17 +1,16 @@
 
-POST    /auth/signup           	 -  tworzy nowego użytkownika\
-POST    /auth/signin          	 -  loguje użytkownika ( zwraca token )\
+POST    /auth/signup           	            -  creates a new user
+POST    /auth/signin          	            -  login a user (return jwt token)
 
-GET     /playlist    		    	   -  zwraca listę playlist użytkownika\
-GET     /playlist/followed 		   -  zwraca listę obserowanych playlist\
-GET     /playlist/public   		   -  zwraca listę publicznych playlist\
-POST    /playlist   		   -  tworzy playliste ( name: string, isPublic:bool )\
-POST    /playlist/follow/:id		 -  obserwuje playliste ( pod warunkiem, że jest publiczna )\
-POST    /playlist/unfollow/:id	 -  przestaje obserować playliste ( pod warunkiem, że była wcześniej obserwowana )\
-PATCH   /playlist/edit/:id       -  edytuje playlist o podanym id ( name: string, isPublic: bool , tylko wtedy kiedy użytkownik jest jej wlascicielem )\
-DELETE  /playlist/delete/:id     -  ususwa playliste od danym id ( tylko wtedy kiedy użytkownik jest jej wlascicielem )\
-GET     /playlist/info/:id             -  zwraca informacje o playliscie
+GET     /playlist    		                -  gets logged user playlists
+GET     /playlist/followed 		            -  gets followed playlists
+GET     /playlist/public   		            -  gets publlic playlists avaible to follow
+POST    /playlist   		                -  creates a playlist
+POST    /playlist/follow/:id                -  follow selected playlist (if its public)
+POST    /playlist/unfollow/:id	            -  unfollow selected playlist in condition it hasn't been followed before
+PATCH   /playlist/edit/:id                  -  edit selected playlist (if owned)
+DELETE  /playlist/delete/:id                -  delete selected playlist (if owned)
+GET     /playlist/info/:id                  -  get one selected playlist information
 
-POST    /video/add/:idPlaylisty    - dodaje video do bazy danych, a następnie przypisuje je do playlisty ( videoId, title, channelTitle, description, publishTime, thumbnail )
-
-DELERE /video/remove/:idPlaylist/:idVideo - usuwa video z playlist, nie usuwa video z bazy danych
+POST    /video/add/:idPlaylisty             -  add video to the database and asign it to the selected playlist 
+DELERE /video/remove/:idPlaylist/:idVideo   - usuwa video z playlist, nie usuwa video z bazy danych
