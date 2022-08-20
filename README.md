@@ -1,6 +1,6 @@
 
 POST    /auth/signup           	 -  creates a new user\
-POST    /auth/signin          	 -  login a user (return jwt token)\
+POST    /auth/signin          	 -  login a user (return jwt token)
 
 GET     /playlist    		         -  gets logged user playlists\
 GET     /playlist/followed 		   -  gets followed playlists\
@@ -10,7 +10,7 @@ POST    /playlist/follow/:id     -  follow selected playlist (if its public)\
 POST    /playlist/unfollow/:id	 -  unfollow selected playlist in condition it hasn't been followed before\
 PATCH   /playlist/edit/:id       -  edit selected playlist (if owned)\
 DELETE  /playlist/delete/:id     -  delete selected playlist (if owned)\
-GET     /playlist/info/:id       -  get one selected playlist information\
+GET     /playlist/info/:id       -  gets one selected playlist information
 
 POST    /video/add/:idPlaylisty             -  add video to the database and asignit to the selected playlist \
-DELERE /video/remove/:idPlaylist/:idVideo   - usuwa video z playlist, nie usuwa video z bazy danych\
+DELERE /video/remove/:idPlaylist/:idVideo   -  delete video from playliit, doesn't delete video from the database
